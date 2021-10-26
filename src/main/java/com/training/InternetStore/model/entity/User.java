@@ -12,7 +12,7 @@ public class User {
     }
 
     public static User createUser(String login, String password) {
-        return new User(login, password, login.equals("Admin") ? Role.ADMIN : Role.USER);
+        return new User(login, password, login.equals("Admin") ? Role.Admin : Role.User);
     }
 
     public void setLogin(String login) {
@@ -57,6 +57,6 @@ public class User {
     }
 
     public enum Role {
-        ADMIN, USER
+        Admin, User
     }
 }

@@ -13,6 +13,6 @@ public class LogOut implements Command {
         if (request.getSession().getAttribute("user") != null) {
             CommandUtility.deleteUserFromLogged(request.getSession());
         }
-        return "redirect:" + JSPPageConstants.LOGIN_PAGE;
+        return "redirect:" + "/app/mainPage";
     }
 }

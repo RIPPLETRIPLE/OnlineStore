@@ -3,6 +3,8 @@ import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.command.guestCommand.LogOut;
 import com.training.InternetStore.controller.command.guestCommand.Login;
 import com.training.InternetStore.controller.command.guestCommand.Registration;
+import com.training.InternetStore.controller.command.userCommand.AddToCart;
+import com.training.InternetStore.controller.command.userCommand.CartPage;
 import com.training.InternetStore.controller.command.userCommand.MainPage;
 
 import java.io.*;
@@ -19,6 +21,8 @@ public class Controller extends HttpServlet {
         commands.put("login", new Login());
         commands.put("mainPage", new MainPage());
         commands.put("logout", new LogOut());
+        commands.put("addToCart", new AddToCart());
+        commands.put("cartPage", new CartPage());
     }
 
     @Override
@@ -38,7 +42,7 @@ public class Controller extends HttpServlet {
         path = path.replaceAll(".*/app/", "");
 
         Command command = commands.getOrDefault(path,
-                (r) -> "/app/logout");
+                (r) -> "logout");
         String page = command.execute(request);
 
         if (page.contains("redirect:")) {

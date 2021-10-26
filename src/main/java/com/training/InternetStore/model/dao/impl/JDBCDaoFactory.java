@@ -15,8 +15,8 @@ public class JDBCDaoFactory extends DaoFactory {
     }
 
     @Override
-    public GoodDao createGoodDao() {
-        return new JDBCGoodDao(getConnection());
+    public ProductDao createProductDao() {
+        return new JDBCProductDao(getConnection());
     }
 
     @Override

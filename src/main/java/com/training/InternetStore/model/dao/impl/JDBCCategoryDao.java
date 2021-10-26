@@ -1,7 +1,7 @@
 package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.model.dao.CategoryDao;
-import com.training.InternetStore.model.entity.Good;
+import com.training.InternetStore.model.entity.Product;
 
 import java.sql.Connection;
 import java.util.List;
@@ -15,17 +15,17 @@ public class JDBCCategoryDao implements CategoryDao {
     }
 
     @Override
-    public boolean create(Good.Category entity) {
+    public boolean create(Product.Category entity) {
         return false;
     }
 
     @Override
-    public Optional<Good.Category> findById(int id) {
+    public Optional<Product.Category> findById(int id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Good.Category> findAll() {
+    public List<Product.Category> findAll() {
         return null;
     }
 

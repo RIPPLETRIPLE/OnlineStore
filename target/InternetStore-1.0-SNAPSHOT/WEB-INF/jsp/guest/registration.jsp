@@ -24,13 +24,14 @@
 <body class="text-center">
 
 <header>
-    <a class="link-primary margin_right_5px" href="${EnLang}">EN</a>
-    <a class="link-primary" href="${UkrLang}">UKR</a>
+    <header>
+        <%@include file="/WEB-INF/jsp/includes/navbar.jsp" %>
+    </header>
 </header>
 
 <main class="form-signin">
     <style>
-        <%@include file="/WEB-INF/css/style.css"%>
+        <%@include file="/WEB-INF/css/login.css"%>
     </style>
 
     <form class="was-validated" method="post" autocomplete="off"

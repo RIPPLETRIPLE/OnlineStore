@@ -10,6 +10,7 @@ import java.io.IOException;
 public class MainPage implements Command {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
-        return JSPPageConstants.SUCCESS_PAGE;
+        request.setAttribute("products", userService.getAllProducts());
+        return JSPPageConstants.MAIN_PAGE ;
     }
 }

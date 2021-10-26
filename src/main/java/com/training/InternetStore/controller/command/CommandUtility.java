@@ -1,9 +1,11 @@
 package com.training.InternetStore.controller.command;
 
 
+import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class CommandUtility {
@@ -32,5 +34,19 @@ public class CommandUtility {
         loggedUsers.removeIf(uL -> uL.equals(userLogin));
         session.getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
+        session.removeAttribute("user");
+    }
+
+    public static void addProductToCartForUnloggedUser(HttpSession session, Product product) {
+        if (session.getAttribute("cart") == null) {
+            session.setAttribute("cart", new HashMap<Product, Integer>());
+        }
+
+        HashMap<Product, Integer> cart = (HashMap<Product, Integer>) session.getAttribute("cart");
+
+        cart.putIfAbsent(product, 0);
+        cart.put(product, cart.get(product) + 1);
+
+        session.setAttribute("cart", cart);
     }
 }

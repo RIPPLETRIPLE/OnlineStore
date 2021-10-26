@@ -1,6 +1,6 @@
 package com.training.InternetStore.model.dao;
 
-import com.training.InternetStore.model.entity.Good;
+import com.training.InternetStore.model.entity.Product;
 
-public interface ColorDao extends GenericDao<Good.Color> {
+public interface ColorDao extends GenericDao<Product.Color> {
 }

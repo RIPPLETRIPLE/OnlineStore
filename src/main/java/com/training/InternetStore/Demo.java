@@ -1,12 +1,10 @@
 package com.training.InternetStore;
-import com.training.InternetStore.model.dao.DaoFactory;
-import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
+import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.service.impl.UserService;
 
 public class Demo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FieldDontPresent {
         UserService us = UserService.getInstance();
-        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
-        System.out.println(daoFactory.createUserDao().findByLogin("Admin1"));
+        System.out.println(us.getProductById(1));
     }
 }

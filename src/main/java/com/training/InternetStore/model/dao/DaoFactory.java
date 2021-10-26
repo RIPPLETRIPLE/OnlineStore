@@ -1,7 +1,5 @@
 package com.training.InternetStore.model.dao;
 
-import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
-
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class DaoFactory {
@@ -24,7 +22,7 @@ public abstract class DaoFactory {
 
     public abstract UserDao createUserDao();
 
-    public abstract GoodDao createGoodDao();
+    public abstract ProductDao createProductDao();
 
     public abstract CategoryDao createCategoryDao();
 

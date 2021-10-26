@@ -1,6 +1,6 @@
 package com.training.InternetStore.model.dao;
 
-import com.training.InternetStore.model.entity.Good;
+import com.training.InternetStore.model.entity.Product;
 
-public interface SizeDao extends GenericDao<Good.Size>{
+public interface SizeDao extends GenericDao<Product.Size>{
 }

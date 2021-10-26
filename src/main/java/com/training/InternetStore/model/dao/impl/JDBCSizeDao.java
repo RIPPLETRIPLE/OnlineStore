@@ -1,7 +1,7 @@
 package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.model.dao.SizeDao;
-import com.training.InternetStore.model.entity.Good;
+import com.training.InternetStore.model.entity.Product;
 
 import java.sql.Connection;
 import java.util.List;
@@ -15,17 +15,17 @@ public class JDBCSizeDao implements SizeDao {
     }
 
     @Override
-    public boolean create(Good.Size entity) {
+    public boolean create(Product.Size entity) {
         return false;
     }
 
     @Override
-    public Optional<Good.Size> findById(int id) {
+    public Optional<Product.Size> findById(int id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Good.Size> findAll() {
+    public List<Product.Size> findAll() {
         return null;
     }
 
