@@ -37,16 +37,33 @@ public class CommandUtility {
         session.removeAttribute("user");
     }
 
-    public static void addProductToCartForUnloggedUser(HttpSession session, Product product) {
+    public static void addProductToCartForUnloggedUser(HttpSession session, Product product, int quantity) {
+        HashMap<Product, Integer> cart = getCart(session);
+        if (!cart.containsKey(product)) {
+            cart.put(product, 1);
+        } else {
+            int currentQuantity = cart.get(product);
+
+            if (currentQuantity + quantity > 0) {
+                cart.put(product, currentQuantity + quantity);
+            }
+        }
+        session.setAttribute("cart", cart);
+    }
+
+    public static void removeProductFromCardForUnloggedUser(HttpSession session, Product product) {
+        HashMap<Product, Integer> cart = getCart(session);
+
+        cart.remove(product);
+
+        session.setAttribute("cart", cart);
+    }
+
+    private static HashMap<Product, Integer> getCart(HttpSession session) {
         if (session.getAttribute("cart") == null) {
             session.setAttribute("cart", new HashMap<Product, Integer>());
         }
 
-        HashMap<Product, Integer> cart = (HashMap<Product, Integer>) session.getAttribute("cart");
-
-        cart.putIfAbsent(product, 0);
-        cart.put(product, cart.get(product) + 1);
-
-        session.setAttribute("cart", cart);
+        return (HashMap<Product, Integer>) session.getAttribute("cart");
     }
 }

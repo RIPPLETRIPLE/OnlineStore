@@ -64,15 +64,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <c:if test="${sessionScope.userAlreadyLogged}">
-                                ${sessionScope.remove("userAlreadyLogged")}
-                                <fmt:message key="user_already_logged" bundle="${bundle}"/>
-                            </c:if>
-
-                            <c:if test="${sessionScope.wrongData}">
-                                ${sessionScope.remove("wrongData")}
-                                <fmt:message key="wrong_data" bundle="${bundle}"/>
-                            </c:if>
+                            <fmt:message key="${sessionScope.errorType}" bundle="${bundle}"/>
+                                ${sessionScope.remove("errorType")}
                         </div>
                     </div>
                 </div>

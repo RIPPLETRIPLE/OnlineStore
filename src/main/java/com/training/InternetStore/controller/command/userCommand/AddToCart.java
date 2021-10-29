@@ -30,7 +30,7 @@ public class AddToCart implements Command {
             } catch (FieldDontPresent fieldDontPresent) {
                 return "redirect:" + "/app/mainPage";
             }
-            CommandUtility.addProductToCartForUnloggedUser(session, product);
+            CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
         }
 
         return "redirect:" + "/app/mainPage";

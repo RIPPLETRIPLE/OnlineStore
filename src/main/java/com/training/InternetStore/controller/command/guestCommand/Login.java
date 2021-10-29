@@ -26,7 +26,7 @@ public class Login implements Command {
             User user = User.createUser(login, password);
             if (CommandUtility.checkUserIsLogged(request.getSession(), user)) {
                 session.setAttribute("error", true);
-                session.setAttribute("userAlreadyLogged", true);
+                session.setAttribute("errorType", "user_already_logged");
                 return "redirect:" + "/app/login";
             }
 
@@ -35,7 +35,7 @@ public class Login implements Command {
         }
 
         session.setAttribute("error", true);
-        session.setAttribute("wrongData", true);
+        session.setAttribute("errorType", "wrong_data");
         return "redirect:" + "/app/login";
     }
 }

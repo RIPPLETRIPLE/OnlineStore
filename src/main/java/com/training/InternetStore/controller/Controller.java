@@ -3,9 +3,7 @@ import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.command.guestCommand.LogOut;
 import com.training.InternetStore.controller.command.guestCommand.Login;
 import com.training.InternetStore.controller.command.guestCommand.Registration;
-import com.training.InternetStore.controller.command.userCommand.AddToCart;
-import com.training.InternetStore.controller.command.userCommand.CartPage;
-import com.training.InternetStore.controller.command.userCommand.MainPage;
+import com.training.InternetStore.controller.command.userCommand.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -23,6 +21,7 @@ public class Controller extends HttpServlet {
         commands.put("logout", new LogOut());
         commands.put("addToCart", new AddToCart());
         commands.put("cartPage", new CartPage());
+        commands.put("changeProductQuantity", new ChangeProductQuantity());
     }
 
     @Override
