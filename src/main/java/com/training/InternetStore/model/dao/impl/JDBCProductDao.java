@@ -1,7 +1,8 @@
 package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.controller.constants.SQLConstants;
-import com.training.InternetStore.model.dao.ProductDao;
+import com.training.InternetStore.model.dao.*;
+import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.dao.mapper.ProductMapper;
 import com.training.InternetStore.model.entity.Product;
 
@@ -11,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCProductDao implements ProductDao {
-    private Connection connection;
-    private ProductMapper productMapper = new ProductMapper();
+    private final Connection connection;
+    private final ProductMapper productMapper = new ProductMapper();
 
     public JDBCProductDao(Connection connection) {
         this.connection = connection;
@@ -35,6 +36,8 @@ public class JDBCProductDao implements ProductDao {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (FieldDontPresent fieldDontPresent) {
+            return Optional.empty();
         }
         return Optional.empty();
     }
@@ -47,7 +50,12 @@ public class JDBCProductDao implements ProductDao {
                 ResultSet resultSet = stmt.executeQuery(SQLConstants.FIND_ALL_PRODUCTS)
         ) {
             while (resultSet.next()) {
-                products.add(productMapper.extractFromResultSet(resultSet));
+                try {
+                    Product product = productMapper.extractFromResultSet(resultSet);
+                    products.add(product);
+                } catch (FieldDontPresent fieldDontPresent) {
+                    return products;
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

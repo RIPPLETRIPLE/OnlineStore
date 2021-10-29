@@ -10,23 +10,23 @@ public class Product {
 
     private String img;
 
-    private long categoryId;
-    private long colorId;
-    private long sizeId;
+    private Category category;
+    private Color color;
+    private Size size;
 
-    private Product(long id, String name, int price, Sex sex, String img, long categoryId, long colorId, long sizeId) {
+    public Product(long id, String name, int price, Sex sex, String img, Category category, Color color, Size size) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.sex = sex;
         this.img = img;
-        this.categoryId = categoryId;
-        this.colorId = colorId;
-        this.sizeId = sizeId;
+        this.category = category;
+        this.color = color;
+        this.size = size;
     }
 
-    public static Product createProduct(long id, String name, int price, Sex sex, String img, long categoryId, long colorId, long sizeId) {
-        return new Product(id, name, price, sex, img, categoryId, colorId, sizeId);
+    public static Product createProduct(long id, String name, int price, Sex sex, String img, Category category, Color color, Size size) {
+        return new Product(id, name, price, sex, img, category, color, size);
     }
 
     public long getId() {
@@ -45,14 +45,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -69,28 +61,36 @@ public class Product {
         this.sex = sex;
     }
 
-    public long getCategoryId() {
-        return categoryId;
+    public String getImg() {
+        return img;
     }
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public long getColorId() {
-        return colorId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setColorId(long colorId) {
-        this.colorId = colorId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public long getSizeId() {
-        return sizeId;
+    public Color getColor() {
+        return color;
     }
 
-    public void setSizeId(long sizeId) {
-        this.sizeId = sizeId;
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
     }
 
     @Override
@@ -101,9 +101,9 @@ public class Product {
                 ", price=" + price +
                 ", sex=" + sex +
                 ", img='" + img + '\'' +
-                ", categoryId=" + categoryId +
-                ", colorId=" + colorId +
-                ", sizeId=" + sizeId +
+                ", category=" + category +
+                ", color=" + color +
+                ", size=" + size +
                 '}';
     }
 
@@ -124,8 +124,12 @@ public class Product {
         private long id;
         private String name;
 
-        public Category(String name) {
+        private Category(String name) {
             this.name = name;
+        }
+
+        public static Category createCategory(String name) {
+            return new Category(name);
         }
 
         public long getId() {
@@ -149,9 +153,14 @@ public class Product {
         private long id;
         private String color;
 
-        public Color(String color) {
+        private Color(String color) {
             this.color = color;
         }
+
+        public static Color createColor(String color) {
+            return new Color(color);
+        }
+
 
         public String getColor() {
             return color;
@@ -174,8 +183,12 @@ public class Product {
         private long id;
         private String size;
 
-        public Size(String size) {
+        private Size(String size) {
             this.size = size;
+        }
+
+        public static Size createSize(String size) {
+            return new Size(size);
         }
 
         public long getId() {

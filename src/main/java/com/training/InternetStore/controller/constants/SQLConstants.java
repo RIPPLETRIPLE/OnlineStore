@@ -3,7 +3,14 @@ package com.training.InternetStore.controller.constants;
 public class SQLConstants {
     public static String CREATE_NEW_USER = "INSERT INTO users (login, password, role) VALUES(?, ?, ?)";
     public static String FIND_ALL_USERS = "SELECT * FROM users";
+    public static String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     public static String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
     public static String FIND_ALL_PRODUCTS = "SELECT * FROM products";
     public static String FIND_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
+    public static String FIND_ALL_CATEGORIES = "SELECT * FROM category";
+    public static String FIND_CATEGORY_BY_ID = "SELECT * FROM category WHERE id = ?";
+    public static String FIND_ALL_COLORS = "SELECT * FROM color";
+    public static String FIND_COLOR_BY_ID = "SELECT * FROM color WHERE id = ?";
+    public static String FIND_ALL_SIZES = "SELECT * FROM size";
+    public static String FIND_SIZE_BY_ID = "SELECT * FROM size WHERE id = ?";
 }

@@ -26,7 +26,7 @@
 </header>
 <main>
     <div class="container my-3">
-        <div class="d-flex py-3" ><h3 id="totalPrice"><fmt:message key="total_price" bundle="${bundle}"/>:
+        <div class="d-flex py-3"><h3 id="totalPrice"><fmt:message key="total_price" bundle="${bundle}"/>:
             <fmt:message key="currency" bundle="${bundle}"/></h3></div>
         <table class="table table-light">
             <thead>
@@ -39,7 +39,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${sessionScope.get('cart')}" var="cart">
+            <c:forEach items="${sessionScope.cart}" var="cart">
                 <tr>
                     <td>
                             ${cart.key.name}
@@ -72,8 +72,13 @@
             </c:forEach>
             </tbody>
         </table>
+        <c:if test="${not empty sessionScope.cart}">
+            <div class="d-flex justify-content-end"><a href="${pageContext.request.contextPath}/app/buyFromCart"
+                                                       class="btn btn-primary"><fmt:message key="buy"
+                                                                                            bundle="${bundle}"/></a>
+            </div>
+        </c:if>
     </div>
-    <h1 id="smth"></h1>
 </main>
 </body>
 <script>
