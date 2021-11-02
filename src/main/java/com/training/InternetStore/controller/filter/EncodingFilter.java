@@ -2,6 +2,7 @@ package com.training.InternetStore.controller.filter;
 
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {

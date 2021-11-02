@@ -30,5 +30,5 @@ public abstract class DaoFactory {
 
     public abstract ColorDao createColorDao();
 
-
+    public abstract OrderDao createOrderDao();
 }

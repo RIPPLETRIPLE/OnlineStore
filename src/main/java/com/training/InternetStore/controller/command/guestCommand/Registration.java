@@ -1,6 +1,5 @@
 package com.training.InternetStore.controller.command.guestCommand;
 
-import com.mysql.cj.Session;
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.constants.JSPPageConstants;
 import com.training.InternetStore.controller.util.ValidationUtil;

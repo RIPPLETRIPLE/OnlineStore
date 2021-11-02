@@ -1,6 +1,7 @@
 package com.training.InternetStore.model.entity;
 
 public class User {
+    private long id;
     private String login;
     private String password;
     private Role role;
@@ -13,6 +14,20 @@ public class User {
 
     public static User createUser(String login, String password) {
         return new User(login, password, login.equals("Admin") ? Role.Admin : Role.User);
+    }
+
+    public static User createUser(long id, String login, String password) {
+        User user = new User(login, password, login.equals("Admin") ? Role.Admin : Role.User);
+        user.setId(id);
+        return user;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setLogin(String login) {

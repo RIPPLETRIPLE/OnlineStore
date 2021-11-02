@@ -8,7 +8,8 @@ import com.training.InternetStore.model.entity.Product;
 public class Demo {
     public static void main(String[] args) throws FieldDontPresent {
         DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
-        Product product = daoFactory.createProductDao().findById(1).get();
-        System.out.println(product);
+        daoFactory.createProductDao().findAll().forEach((e) -> {
+            System.out.println(e);
+        });
     }
 }

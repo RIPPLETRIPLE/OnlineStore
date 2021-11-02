@@ -40,7 +40,7 @@
             <c:forEach items="${pageContext.request.getAttribute('products')}" var="product">
                 <div class="col-md-3 my-3">
                     <div class="card w-100">
-                        <img class="card-img-top" src="/./././product-image/${product.img}"
+                        <img class="card-img-top" src="/WEB-INF/product-image/${product.img}"
                              alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>

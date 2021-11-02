@@ -2,7 +2,10 @@ package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.controller.constants.SQLConstants;
 import com.training.InternetStore.model.dao.UserDao;
+import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.dao.mapper.UserMapper;
+import com.training.InternetStore.model.entity.enums.OrderStatus;
+import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 
 import java.sql.*;
@@ -22,7 +25,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public boolean create(User user) {
         boolean result = false;
-        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_NEW_USER)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int i = 0;
 
             pstmt.setString(++i, user.getLogin());
@@ -30,7 +33,12 @@ public class JDBCUserDao implements UserDao {
             pstmt.setString(++i, user.getRole().toString());
 
             if (pstmt.executeUpdate() > 0) {
-                result = true;
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        user.setId(rs.getLong(1));
+                    }
+                    result = true;
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -40,15 +48,10 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public Optional<User> findById(int id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<User> findByLogin(String login) {
         try (
-                PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_USER_BY_LOGIN)
+                PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_USER_BY_ID)
         ) {
-            pstmt.setString(1, login);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return Optional.of(userMapper.extractFromResultSet(rs));
@@ -58,6 +61,24 @@ public class JDBCUserDao implements UserDao {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_USER_BY_LOGIN, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            pstmt.setString(1, login);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(userMapper.extractFromResultSet(rs));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
 
     @Override
     public List<User> findAll() {

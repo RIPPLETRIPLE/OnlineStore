@@ -34,6 +34,11 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCColorDao(getConnection());
     }
 
+    @Override
+    public OrderDao createOrderDao() {
+        return new JDBCOrderDao(getConnection());
+    }
+
     private Connection getConnection() {
         dataSource = ConnectionPoolHolder.getDataSource(resourcePropertiesName);
         try {

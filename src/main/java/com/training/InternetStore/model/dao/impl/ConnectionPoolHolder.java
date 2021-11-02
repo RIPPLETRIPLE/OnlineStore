@@ -15,6 +15,7 @@ public class ConnectionPoolHolder {
                 ResourceBundle dbParam = ResourceBundle.getBundle(dbParamResourceName);
 
                 BasicDataSource ds = new BasicDataSource();
+                ds.setDriverClassName(dbParam.getString("db.driverClassName"));
                 ds.setUrl(dbParam.getString("db.url"));
                 ds.setUsername(dbParam.getString("db.username"));
                 ds.setPassword(dbParam.getString("db.password"));

@@ -147,6 +147,14 @@ public class Product {
         public void setName(String name) {
             this.name = name;
         }
+
+        @Override
+        public String toString() {
+            return "Category{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
     }
 
     public static class Color {
@@ -177,6 +185,14 @@ public class Product {
         public void setId(long id) {
             this.id = id;
         }
+
+        @Override
+        public String toString() {
+            return "Color{" +
+                    "id=" + id +
+                    ", color='" + color + '\'' +
+                    '}';
+        }
     }
 
     public static class Size {
@@ -205,6 +221,14 @@ public class Product {
 
         public void setSize(String size) {
             this.size = size;
+        }
+
+        @Override
+        public String toString() {
+            return "Size{" +
+                    "id=" + id +
+                    ", size='" + size + '\'' +
+                    '}';
         }
     }
 
