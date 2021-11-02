@@ -59,6 +59,7 @@ public class CommandUtility {
         session.setAttribute("cart", cart);
     }
 
+
     private static HashMap<Product, Integer> getCart(HttpSession session) {
         if (session.getAttribute("cart") == null) {
             session.setAttribute("cart", new HashMap<Product, Integer>());
