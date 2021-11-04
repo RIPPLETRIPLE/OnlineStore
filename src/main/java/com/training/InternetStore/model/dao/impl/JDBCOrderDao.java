@@ -3,9 +3,9 @@ package com.training.InternetStore.model.dao.impl;
 import com.training.InternetStore.controller.constants.SQLConstants;
 import com.training.InternetStore.model.dao.OrderDao;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
-import com.training.InternetStore.model.dao.mapper.ColorMapper;
 import com.training.InternetStore.model.dao.mapper.OrderMapper;
 import com.training.InternetStore.model.entity.Order;
+import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
 
@@ -51,8 +51,31 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Order order) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_ORDER)){
+            int i = 0;
+            pstmt.setLong(++i, order.getUser().getId());
+            pstmt.setLong(++i, order.getProduct().getId());
+            pstmt.setString(++i, order.getStatus().toString());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
+    @Override
+    public boolean update(Order order) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_ORDER)) {
+            int i = 0;
+            pstmt.setInt(++i, order.getQuantity());
+            pstmt.setLong(++i, order.getUser().getId());
+            pstmt.setLong(++i, order.getProduct().getId());
+            pstmt.setString(++i, order.getStatus().toString());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -78,5 +101,25 @@ public class JDBCOrderDao implements OrderDao {
             return orders;
         }
         return orders;
+    }
+
+    @Override
+    public Optional<Order> findOrderForUserByOrderStatusAndProduct(User user, Product product, OrderStatus status) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_ORDER_FOR_USER_ORDER_STATUS_PRODUCT)) {
+            pstmt.setLong(1, user.getId());
+            pstmt.setLong(2, product.getId());
+            pstmt.setString(3, status.toString());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(orderMapper.extractFromResultSet(rs));
+                }
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (FieldDontPresent fieldDontPresent) {
+            return Optional.empty();
+        }
+        return Optional.empty();
     }
 }

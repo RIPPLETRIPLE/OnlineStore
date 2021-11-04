@@ -24,10 +24,8 @@ public class ChangeProductQuantity implements Command {
         }
 
         HttpSession session = request.getSession();
-
         User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
 
-        if (user == null) {
             Product product;
             try {
                 product = userService.getProductById(productId);
@@ -35,15 +33,27 @@ public class ChangeProductQuantity implements Command {
                 return "redirect:" + "/app/mainPage";
             }
             if (action.equals("increment")) {
-                CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
+                if (user == null) {
+                    CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
+                } else {
+                    userService.incrementProductInCart(user, product);
+                }
             }
             if (action.equals("decrement")) {
-                CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
+                if (user == null) {
+                    CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
+                } else {
+                    userService.decrementProductInCart(user, product);
+                }
             }
             if (action.equals("remove")) {
-                CommandUtility.removeProductFromCardForUnloggedUser(session, product);
+                if (user == null) {
+                    CommandUtility.removeProductFromCardForUnloggedUser(session, product);
+                } else {
+                    userService.deleteOrderFromCart(user, product);
+                }
             }
-        }
+
         return "redirect:" + "/app/cartPage";
     }
 }

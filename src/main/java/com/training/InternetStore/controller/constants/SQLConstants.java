@@ -1,6 +1,9 @@
 package com.training.InternetStore.controller.constants;
 
 public class SQLConstants {
+
+
+
     public static String CREATE_NEW_USER = "INSERT INTO users (login, password, role) VALUES(?, ?, ?)";
     public static String FIND_ALL_USERS = "SELECT * FROM users";
     public static String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = (?)";
@@ -15,4 +18,7 @@ public class SQLConstants {
     public static String FIND_SIZE_BY_ID = "SELECT * FROM size WHERE id = (?)";
     public static String ADD_ORDER_FOR_USER = "INSERT INTO orders (user_ID, product_ID, status, quantity) VALUES (?, ?, ?, ?)";
     public static String FIND_ORDERS_FOR_USER_ORDER_STATUS = "SELECT * FROM orders WHERE user_ID = (?) AND status = (?)";
+    public static  String FIND_ORDER_FOR_USER_ORDER_STATUS_PRODUCT = "SELECT * FROM orders WHERE user_ID = (?) AND product_ID = (?) AND status = (?);";
+    public static final String UPDATE_ORDER = "UPDATE orders SET quantity = (?) WHERE user_ID = (?) AND product_ID = (?) AND status = (?)";
+    public static final String DELETE_ORDER = "DELETE FROM orders WHERE user_ID = (?) AND product_ID = (?) AND status = (?) ";
 }

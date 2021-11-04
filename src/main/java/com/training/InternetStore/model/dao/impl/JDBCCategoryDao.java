@@ -56,8 +56,13 @@ public class JDBCCategoryDao implements CategoryDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Product.Category id) {
 
+    }
+
+    @Override
+    public boolean update(Product.Category entity) {
+        return false;
     }
 
     @Override

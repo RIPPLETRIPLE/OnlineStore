@@ -34,7 +34,9 @@ public class AddToCart implements Command {
         if (user == null) {
             CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
         } else {
-            userService.addProductToUserCart(user, product);
+            if (!userService.addProductToUserCart(user, product)) {
+                userService.incrementProductInCart(user, product);
+            }
         }
 
         return "redirect:" + "/app/mainPage";

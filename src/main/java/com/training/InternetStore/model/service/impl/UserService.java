@@ -12,8 +12,10 @@ import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.service.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserService implements Service {
     private static UserService userService;
@@ -58,5 +60,41 @@ public class UserService implements Service {
 
     public List<Product> getAllProducts() {
         return productDao.findAll();
+    }
+
+    public boolean incrementProductInCart(User user, Product product) {
+        try {
+            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
+            order.setQuantity(order.getQuantity() + 1);
+            orderDao.update(order);
+        } catch (FieldDontPresent e) {
+            return false;
+        }
+        return false;
+    }
+    public boolean decrementProductInCart(User user,Product product) {
+        try {
+            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
+            if (order.getQuantity() - 1 > 0) {
+                order.setQuantity(order.getQuantity() - 1);
+                orderDao.update(order);
+            }
+        } catch (FieldDontPresent e) {
+            return false;
+        }
+        return false;
+    }
+
+    public boolean deleteOrderFromCart(User user, Product product) {
+        try {
+            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
+            if (order.getQuantity() - 1 > 0) {
+                order.setQuantity(order.getQuantity() - 1);
+                orderDao.delete(order);
+            }
+        } catch (FieldDontPresent e) {
+            return false;
+        }
+        return false;
     }
 }

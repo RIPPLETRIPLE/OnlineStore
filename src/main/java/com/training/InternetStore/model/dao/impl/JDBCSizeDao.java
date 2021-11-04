@@ -56,8 +56,13 @@ public class JDBCSizeDao implements SizeDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Product.Size id) {
 
+    }
+
+    @Override
+    public boolean update(Product.Size entity) {
+        return false;
     }
 
     @Override

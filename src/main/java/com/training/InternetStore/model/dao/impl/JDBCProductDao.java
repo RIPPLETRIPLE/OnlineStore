@@ -64,8 +64,13 @@ public class JDBCProductDao implements ProductDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Product id) {
 
+    }
+
+    @Override
+    public boolean update(Product entity) {
+        return false;
     }
 
     @Override

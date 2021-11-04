@@ -56,8 +56,13 @@ public class JDBCColorDao implements ColorDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Product.Color id) {
 
+    }
+
+    @Override
+    public boolean update(Product.Color entity) {
+        return false;
     }
 
     @Override
