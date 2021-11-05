@@ -26,33 +26,33 @@ public class ChangeProductQuantity implements Command {
         HttpSession session = request.getSession();
         User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
 
-            Product product;
-            try {
-                product = userService.getProductById(productId);
-            } catch (FieldDontPresent fieldDontPresent) {
-                return "redirect:" + "/app/mainPage";
+        Product product;
+        try {
+            product = userService.getProductById(productId);
+        } catch (FieldDontPresent fieldDontPresent) {
+            return "redirect:" + "/app/mainPage";
+        }
+        if (action.equals("increment")) {
+            if (user == null) {
+                CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
+            } else {
+                userService.incrementProductInCart(user, product);
             }
-            if (action.equals("increment")) {
-                if (user == null) {
-                    CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
-                } else {
-                    userService.incrementProductInCart(user, product);
-                }
+        }
+        if (action.equals("decrement")) {
+            if (user == null) {
+                CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
+            } else {
+                userService.decrementProductInCart(user, product);
             }
-            if (action.equals("decrement")) {
-                if (user == null) {
-                    CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
-                } else {
-                    userService.decrementProductInCart(user, product);
-                }
+        }
+        if (action.equals("remove")) {
+            if (user == null) {
+                CommandUtility.removeProductFromCardForUnloggedUser(session, product);
+            } else {
+                userService.deleteOrderFromCart(user, product);
             }
-            if (action.equals("remove")) {
-                if (user == null) {
-                    CommandUtility.removeProductFromCardForUnloggedUser(session, product);
-                } else {
-                    userService.deleteOrderFromCart(user, product);
-                }
-            }
+        }
 
         return "redirect:" + "/app/cartPage";
     }

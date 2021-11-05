@@ -11,7 +11,7 @@ public class ProductMapper implements Mapper<Product>{
     @Override
     public Product extractFromResultSet(ResultSet rs) throws SQLException, FieldDontPresent {
         return Product.createProduct(
-                rs.getLong("id"),
+                rs.getLong("ID"),
                 rs.getString("name"),
                 rs.getInt("price"),
                 Product.Sex.valueOf(rs.getString("sex")),

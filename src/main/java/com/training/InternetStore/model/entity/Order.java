@@ -3,6 +3,7 @@ package com.training.InternetStore.model.entity;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
 
 public class Order {
+    private long id;
     private User user;
     private Product product;
     private int quantity;
@@ -20,6 +21,19 @@ public class Order {
 
     public static Order createOrder(User user, Product product, int quantity, OrderStatus status) {
         return new Order(user, product, quantity, status);
+    }
+
+    public static Order createOrder(long id, User user, Product product, int quantity, OrderStatus status) {
+        Order order = new Order(user, product, quantity, status);
+        order.setId(id);
+        return order;
+    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public User getUser() {

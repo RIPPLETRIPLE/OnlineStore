@@ -27,13 +27,19 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public boolean create(Order order) {
-        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.ADD_ORDER_FOR_USER)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.ADD_ORDER_FOR_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int i = 0;
             pstmt.setLong(++i, order.getUser().getId());
             pstmt.setLong(++i, order.getProduct().getId());
             pstmt.setString(++i, order.getStatus().toString());
             pstmt.setInt(++i, order.getQuantity());
-            pstmt.executeUpdate();
+            if (pstmt.executeUpdate() > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        order.setId(rs.getLong(1));
+                    }
+                }
+            }
         } catch (SQLException throwables) {
             return false;
         }
@@ -52,11 +58,9 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public void delete(Order order) {
-        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_ORDER)){
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_ORDER)) {
             int i = 0;
-            pstmt.setLong(++i, order.getUser().getId());
-            pstmt.setLong(++i, order.getProduct().getId());
-            pstmt.setString(++i, order.getStatus().toString());
+            pstmt.setLong(++i, order.getId());
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -71,6 +75,7 @@ public class JDBCOrderDao implements OrderDao {
             pstmt.setLong(++i, order.getUser().getId());
             pstmt.setLong(++i, order.getProduct().getId());
             pstmt.setString(++i, order.getStatus().toString());
+            pstmt.setLong(++i, order.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

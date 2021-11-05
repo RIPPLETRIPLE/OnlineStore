@@ -24,6 +24,7 @@ public class Controller extends HttpServlet {
         commands.put("cartPage", new CartPage());
         commands.put("changeProductQuantity", new ChangeProductQuantity());
         commands.put("buyFromCart", new BuyFromCart());
+        commands.put("ordersPage", new OrdersPage());
     }
 
     @Override

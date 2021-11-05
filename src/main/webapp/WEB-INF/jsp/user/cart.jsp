@@ -80,7 +80,7 @@
             </c:forEach>
             </tbody>
         </table>
-        <c:if test="${not empty sessionScope.cart}">
+        <c:if test="${not empty cart}">
             <div class="d-flex justify-content-end"><a href="${pageContext.request.contextPath}/app/buyFromCart"
                                                        class="btn btn-primary"><fmt:message key="buy"
                                                                                             bundle="${bundle}"/></a>

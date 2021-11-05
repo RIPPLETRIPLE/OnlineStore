@@ -54,12 +54,19 @@ public class UserService implements Service {
         return orderDao.create(order);
     }
 
-    public List<Order> getCartForUser(User user) {
-        return orderDao.findOrdersForUserByOrderStatus(user, OrderStatus.Unregistered);
+    public List<Order> getOrdersByStatus(User user, OrderStatus status) {
+        return orderDao.findOrdersForUserByOrderStatus(user, status);
     }
 
     public List<Product> getAllProducts() {
         return productDao.findAll();
+    }
+
+    public void updateStatusForOrders(List<Order> orders, OrderStatus status) {
+        orders.forEach(e -> {
+            e.setStatus(status);
+            orderDao.update(e);
+        });
     }
 
     public boolean incrementProductInCart(User user, Product product) {
@@ -72,7 +79,8 @@ public class UserService implements Service {
         }
         return false;
     }
-    public boolean decrementProductInCart(User user,Product product) {
+
+    public boolean decrementProductInCart(User user, Product product) {
         try {
             Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
             if (order.getQuantity() - 1 > 0) {
@@ -88,10 +96,8 @@ public class UserService implements Service {
     public boolean deleteOrderFromCart(User user, Product product) {
         try {
             Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
-            if (order.getQuantity() - 1 > 0) {
-                order.setQuantity(order.getQuantity() - 1);
-                orderDao.delete(order);
-            }
+            order.setQuantity(order.getQuantity() - 1);
+            orderDao.delete(order);
         } catch (FieldDontPresent e) {
             return false;
         }

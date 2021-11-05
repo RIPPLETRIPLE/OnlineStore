@@ -45,17 +45,16 @@ public class CommandUtility {
     public static void addProductToCartForUnloggedUser(HttpSession session, Product product, int quantity) {
         List<Order> cart = getCart(session);
 
-        if (quantity > 0) {
             if (cart.stream().anyMatch((c) -> c.getProduct().equals(product))) {
                 cart.forEach(order -> {
-                    if (order.getProduct().equals(product)) {
+                    if (order.getQuantity() + quantity > 0 && order.getProduct().equals(product)) {
                         order.setQuantity(order.getQuantity() + quantity);
                     }
                 });
             } else {
                 cart.add(Order.createOrder(null, product, quantity, OrderStatus.Unregistered));
             }
-        }
+
         session.setAttribute("cart", cart);
     }
 

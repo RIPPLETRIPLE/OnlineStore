@@ -15,7 +15,7 @@
                                                                                         bundle="${bundle}"/></a></li>
 
                 <c:if test="${not empty role}">
-                    <li class="nav-item"><a class="nav-link" href="orders.jsp"><fmt:message key="orders"
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/ordersPage"><fmt:message key="orders"
                                                                                             bundle="${bundle}"/></a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/logout"><fmt:message key="logout"
