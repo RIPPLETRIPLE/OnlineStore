@@ -52,12 +52,14 @@
                         <fmt:message key="currency" bundle="${bundle}"/>
                     </td>
                     <td>
-                        ${order.status}
+                            ${order.status}
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/app/changeProductQuantity?action=remove&productId=${order.product.id}"
-                           class="btn btn-sm btn-danger"><fmt:message key="remove"
-                                                                      bundle="${bundle}"/></a>
+                        <c:if test="${order.status == 'Registered'}">
+                            <a href="${pageContext.request.contextPath}/app/cancelRegisteredOrder?action=remove&orderId=${order.id}"
+                               class="btn btn-sm btn-danger"><fmt:message key="cancel"
+                                                                          bundle="${bundle}"/></a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

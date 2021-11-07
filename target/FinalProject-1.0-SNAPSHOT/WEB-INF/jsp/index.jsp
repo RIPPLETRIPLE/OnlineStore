@@ -35,13 +35,28 @@
     <body>
 
     <div class="container">
-        <div class="card-header my-3"><fmt:message key="all_products" bundle="${bundle}"/></div>
+        <div class="card-header my-3"><fmt:message key="all_products" bundle="${bundle}"/>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <fmt:message key="sort_by" bundle="${bundle}"/>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/mainPage?sortBy=name"><fmt:message key="by_name" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/mainPage?sortBy=priceLow"><fmt:message key="by_price_low" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/mainPage?sortBy=priceHigh"><fmt:message key="by_price_high" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/mainPage"><fmt:message key="by_date_low" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/mainPage?sortBy=dateHigh"><fmt:message key="by_date_high" bundle="${bundle}"/></a></li>
+            </ul>
+        </div>
         <div class="row">
             <c:forEach items="${pageContext.request.getAttribute('products')}" var="product">
                 <div class="col-md-3 my-3">
                     <div class="card w-100">
                         <img class="card-img-top" src="/././product-image/${product.img}"
-                             alt="Card image cap">
+                             alt="Card image cap" style="max-height: 300px;
+                                                         height: auto;
+                                                         width: auto;">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <h6 class="price"><fmt:message key="price" bundle="${bundle}"/>:

@@ -3,13 +3,17 @@ package com.training.InternetStore.controller.command.userCommand;
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.command.CommandUtility;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
+import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
+import com.training.InternetStore.model.entity.enums.OrderStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChangeProductQuantity implements Command {
     @Override
@@ -25,35 +29,43 @@ public class ChangeProductQuantity implements Command {
 
         HttpSession session = request.getSession();
         User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
-
         Product product;
+
         try {
             product = userService.getProductById(productId);
         } catch (FieldDontPresent fieldDontPresent) {
-            return "redirect:" + "/app/mainPage";
-        }
-        if (action.equals("increment")) {
-            if (user == null) {
-                CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
-            } else {
-                userService.incrementProductInCart(user, product);
-            }
-        }
-        if (action.equals("decrement")) {
-            if (user == null) {
-                CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
-            } else {
-                userService.decrementProductInCart(user, product);
-            }
-        }
-        if (action.equals("remove")) {
-            if (user == null) {
-                CommandUtility.removeProductFromCardForUnloggedUser(session, product);
-            } else {
-                userService.deleteOrderFromCart(user, product);
-            }
+            return "redirect:" + "/app/cartPage";
         }
 
+        if (user == null) {
+            if (action.equals("increment")) {
+                CommandUtility.addProductToCartForUnloggedUser(session, product, 1);
+            }
+            if (action.equals("decrement")) {
+                CommandUtility.addProductToCartForUnloggedUser(session, product, -1);
+            }
+            if (action.equals("remove")) {
+                CommandUtility.removeProductFromCardForUnloggedUser(session, product);
+            }
+        } else {
+            List<Order> orders = userService.getOrdersByStatus(user, OrderStatus.Unregistered);
+            Order order;
+            try {
+                order = orders.stream().filter((e) -> e.getProduct().getId() == productId).findFirst().orElseThrow(FieldDontPresent::new);
+            } catch (FieldDontPresent e) {
+                return "redirect:" + "/app/cartPage";
+            }
+
+            if (action.equals("increment")) {
+                userService.incrementOrderQuantity(order);
+            }
+            if (action.equals("decrement")) {
+                userService.decrementOrderQuantity(order);
+            }
+            if (action.equals("remove")) {
+                userService.deleteOrder(order);
+            }
+        }
         return "redirect:" + "/app/cartPage";
     }
 }

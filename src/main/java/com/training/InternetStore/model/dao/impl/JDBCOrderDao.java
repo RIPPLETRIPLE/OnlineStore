@@ -29,6 +29,11 @@ public class JDBCOrderDao implements OrderDao {
     public boolean create(Order order) {
         try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.ADD_ORDER_FOR_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int i = 0;
+
+            if (findOrderForUserByOrderStatusAndProduct(order.getUser(), order.getProduct(), order.getStatus()).isPresent()) {
+                return false;
+            }
+
             pstmt.setLong(++i, order.getUser().getId());
             pstmt.setLong(++i, order.getProduct().getId());
             pstmt.setString(++i, order.getStatus().toString());
@@ -48,6 +53,17 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public Optional<Order> findById(int id) {
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_ORDER_BY_ID)
+        ) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return Optional.of(orderMapper.extractFromResultSet(rs));
+            }
+        } catch (SQLException | FieldDontPresent throwables) {
+            throwables.printStackTrace();
+        }
         return Optional.empty();
     }
 

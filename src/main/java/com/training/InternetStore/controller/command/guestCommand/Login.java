@@ -25,7 +25,6 @@ public class Login implements Command {
 
         User user = User.createUser(login, password);
         if (userService.DBContainsUser(user)) {
-
             if (CommandUtility.checkUserIsLogged(request.getSession(), user)) {
                 session.setAttribute("error", true);
                 session.setAttribute("errorType", "user_already_logged");

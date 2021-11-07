@@ -15,6 +15,7 @@ import com.training.InternetStore.model.service.Service;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserService implements Service {
@@ -38,28 +39,35 @@ public class UserService implements Service {
 
     public boolean DBContainsUser(User user) {
         try {
-            user.setId(userDao.findByLogin(user.getLogin()).orElseThrow(FieldDontPresent::new).getId());
+            User userWithSuchLogin = userDao.findByLogin(user.getLogin()).orElseThrow(FieldDontPresent::new);
+            if (user.getPassword().equals(userWithSuchLogin.getPassword())) {
+                user.setId(userWithSuchLogin.getId());
+                return true;
+            }
         } catch (FieldDontPresent e) {
             return false;
         }
-        return true;
+        return false;
     }
 
     public Product getProductById(int id) throws FieldDontPresent {
         return productDao.findById(id).orElseThrow(FieldDontPresent::new);
     }
 
-    public boolean addProductToUserCart(User user, Product product) {
-        Order order = Order.createOrder(user, product, 1, OrderStatus.valueOf("Unregistered"));
+    public boolean addOrder(Order order) {
         return orderDao.create(order);
-    }
-
-    public List<Order> getOrdersByStatus(User user, OrderStatus status) {
-        return orderDao.findOrdersForUserByOrderStatus(user, status);
     }
 
     public List<Product> getAllProducts() {
         return productDao.findAll();
+    }
+
+    public Optional<Order> getOrderByID(int id) {
+        return orderDao.findById(id);
+    }
+
+    public List<Order> getOrdersByStatus(User user, OrderStatus status) {
+        return orderDao.findOrdersForUserByOrderStatus(user, status);
     }
 
     public void updateStatusForOrders(List<Order> orders, OrderStatus status) {
@@ -69,38 +77,23 @@ public class UserService implements Service {
         });
     }
 
-    public boolean incrementProductInCart(User user, Product product) {
-        try {
-            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
-            order.setQuantity(order.getQuantity() + 1);
-            orderDao.update(order);
-        } catch (FieldDontPresent e) {
-            return false;
-        }
-        return false;
+    public boolean incrementOrderQuantity(Order order) {
+        order.setQuantity(order.getQuantity() + 1);
+        return orderDao.update(order);
     }
 
-    public boolean decrementProductInCart(User user, Product product) {
-        try {
-            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
-            if (order.getQuantity() - 1 > 0) {
-                order.setQuantity(order.getQuantity() - 1);
-                orderDao.update(order);
-            }
-        } catch (FieldDontPresent e) {
-            return false;
-        }
-        return false;
-    }
 
-    public boolean deleteOrderFromCart(User user, Product product) {
-        try {
-            Order order = orderDao.findOrderForUserByOrderStatusAndProduct(user, product, OrderStatus.Unregistered).orElseThrow(FieldDontPresent::new);
+    public boolean decrementOrderQuantity(Order order) {
+        if (order.getQuantity() - 1 > 0) {
             order.setQuantity(order.getQuantity() - 1);
-            orderDao.delete(order);
-        } catch (FieldDontPresent e) {
-            return false;
+            return orderDao.update(order);
         }
         return false;
+    }
+
+    public boolean deleteOrder(Order order) {
+        order.setQuantity(order.getQuantity() - 1);
+        orderDao.delete(order);
+        return true;
     }
 }

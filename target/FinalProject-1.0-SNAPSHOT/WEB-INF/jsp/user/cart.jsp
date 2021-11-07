@@ -73,7 +73,7 @@
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/app/changeProductQuantity?action=remove&productId=${order.product.id}"
-                           class="btn btn-sm btn-danger"><fmt:message key="remove"
+                           class="btn btn-sm btn-danger"><fmt:message key="delete"
                                                                       bundle="${bundle}"/></a>
                     </td>
                 </tr>
