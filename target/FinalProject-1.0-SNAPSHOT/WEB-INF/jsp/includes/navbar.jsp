@@ -1,7 +1,7 @@
-<c:set var="role" value="${sessionScope.user}"/>
+<%@include file="/WEB-INF/jsp/includes/standartVariables.jsp" %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="/app/mainPage"><fmt:message key="online_shop" bundle="${bundle}"/></a>
+        <a class="navbar-brand" href="${url}/mainPage"><fmt:message key="online_shop" bundle="${bundle}"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -11,19 +11,21 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/cartPage"><fmt:message key="cart"
+                <li class="nav-item"><a class="nav-link" href="${url}/cartPage"><fmt:message key="cart"
                                                                                         bundle="${bundle}"/></a></li>
 
-                <c:if test="${not empty role}">
-                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/ordersPage"><fmt:message key="orders"
+                <c:if test="${role == 'user'}">
+                    <c:if test="${role != 'admin'}">
+                    <li class="nav-item"><a class="nav-link" href="${url}/ordersPage"><fmt:message key="orders"
                                                                                             bundle="${bundle}"/></a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/logout"><fmt:message key="logout"
+                    </c:if>
+                    <li class="nav-item"><a class="nav-link" href="${url}/logout"><fmt:message key="logout"
                                                                                              bundle="${bundle}"/></a>
                     </li>
                 </c:if>
-                <c:if test="${empty role}">
-                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/app/login"><fmt:message key="sign_in"
+                <c:if test="${role == 'guest'}">
+                    <li class="nav-item"><a class="nav-link" href="${url}/login"><fmt:message key="sign_in"
                                                                                             bundle="${bundle}"/></a>
                     </li>
                 </c:if>

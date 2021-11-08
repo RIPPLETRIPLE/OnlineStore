@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ChangeProductQuantity implements Command {
@@ -20,21 +21,21 @@ public class ChangeProductQuantity implements Command {
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         int productId;
         String action = request.getParameter("action");
-
+        HttpSession session = request.getSession();
+        User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
+        User.Role role = user != null ? user.getRole() : User.Role.Guest;
+        String cartPage = "redirect:" + "/app/" + role.toString().toLowerCase(Locale.ROOT) + "/cartPage";
         try {
             productId = Integer.parseInt(request.getParameter("productId"));
         } catch (NumberFormatException e) {
-            return "redirect:" + "/app/cartPage";
+            return cartPage;
         }
-
-        HttpSession session = request.getSession();
-        User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
         Product product;
 
         try {
             product = userService.getProductById(productId);
         } catch (FieldDontPresent fieldDontPresent) {
-            return "redirect:" + "/app/cartPage";
+            return cartPage;
         }
 
         if (user == null) {
@@ -53,7 +54,7 @@ public class ChangeProductQuantity implements Command {
             try {
                 order = orders.stream().filter((e) -> e.getProduct().getId() == productId).findFirst().orElseThrow(FieldDontPresent::new);
             } catch (FieldDontPresent e) {
-                return "redirect:" + "/app/cartPage";
+                return cartPage;
             }
 
             if (action.equals("increment")) {
@@ -66,6 +67,6 @@ public class ChangeProductQuantity implements Command {
                 userService.deleteOrder(order);
             }
         }
-        return "redirect:" + "/app/cartPage";
+        return cartPage;
     }
 }

@@ -54,7 +54,7 @@ public class UserService implements Service {
         return productDao.findById(id).orElseThrow(FieldDontPresent::new);
     }
 
-    public boolean addOrder(Order order) {
+    public boolean createOrder(Order order) {
         return orderDao.create(order);
     }
 
@@ -95,5 +95,12 @@ public class UserService implements Service {
         order.setQuantity(order.getQuantity() - 1);
         orderDao.delete(order);
         return true;
+    }
+
+    public void retainCartForLoggedUser(List<Order> cart, User user) {
+        cart.forEach(e -> {
+            e.setUser(user);
+            userService.createOrder(e);
+        });
     }
 }

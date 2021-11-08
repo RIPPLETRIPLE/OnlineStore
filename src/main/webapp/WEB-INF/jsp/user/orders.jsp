@@ -1,16 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/WEB-INF/jsp/includes/standartVariables.jsp" %>
 <html>
-<fmt:setLocale value='${pageContext.request.getSession(false).getAttribute("lang")}'/>
-<fmt:setBundle basename="translate" var="bundle"/>
-<c:url value="" var="EnLang">
-    <c:param name="lang" value="en"/>
-</c:url>
-
-<c:url value="" var="UkrLang">
-    <c:param name="lang" value="ukr"/>
-</c:url>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -56,7 +45,7 @@
                     </td>
                     <td>
                         <c:if test="${order.status == 'Registered'}">
-                            <a href="${pageContext.request.contextPath}/app/cancelRegisteredOrder?action=remove&orderId=${order.id}"
+                            <a href="${pageContext.request.contextPath}/app/${role}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
                                class="btn btn-sm btn-danger"><fmt:message key="cancel"
                                                                           bundle="${bundle}"/></a>
                         </c:if>
@@ -69,16 +58,6 @@
 </main>
 </body>
 <script>
-    function totalPrice() {
-        let prices = document.getElementsByClassName('price');
-        let sum = 0;
-
-        for (let i = 0; i < prices.length; i++) {
-            sum += parseInt(prices.item(i).innerHTML);
-        }
-        return sum.toString();
-    }
-
-    document.getElementById("totalPrice").innerText = document.getElementById("totalPrice").innerText.replace(': ', ': ' + totalPrice());
+    <%@include file="/WEB-INF/js/CartOrder.js" %>
 </script>
 </html>

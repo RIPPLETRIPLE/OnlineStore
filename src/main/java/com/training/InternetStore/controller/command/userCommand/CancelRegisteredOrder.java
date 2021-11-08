@@ -16,17 +16,17 @@ public class CancelRegisteredOrder implements Command {
         try {
             orderId = Integer.parseInt(request.getParameter("orderId"));
         } catch (NumberFormatException ex) {
-            return "redirect:" + "/app/ordersPage";
+            return "redirect:" + "/app/user/ordersPage";
         }
         Order order;
 
         try {
             order = userService.getOrderByID(orderId).orElseThrow(FieldDontPresent::new);
         } catch (FieldDontPresent e) {
-            return "redirect:" + "/app/ordersPage";
+            return "redirect:" + "/app/user/ordersPage";
         }
         userService.deleteOrder(order);
 
-        return "redirect:" + "/app/ordersPage";
+        return "redirect:" + "/app/user/ordersPage";
     }
 }

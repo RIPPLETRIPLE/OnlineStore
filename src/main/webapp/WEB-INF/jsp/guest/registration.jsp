@@ -1,16 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/WEB-INF/jsp/includes/standartVariables.jsp" %>
 <html>
-<fmt:setLocale value='${pageContext.request.getSession(false).getAttribute("lang")}'/>
-<fmt:setBundle basename="translate" var="bundle"/>
-<c:url value="" var="EnLang">
-    <c:param name="lang" value="en"/>
-</c:url>
-
-<c:url value="" var="UkrLang">
-    <c:param name="lang" value="ukr"/>
-</c:url>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -35,7 +24,7 @@
     </style>
 
     <form class="was-validated" method="post" autocomplete="off"
-          action="${pageContext.request.contextPath}/app/registration">
+          action="${pageContext.request.contextPath}/app/guest/registration">
         <h1 class="h3 mb-3 fw-normal"><fmt:message key="sign_up" bundle="${bundle}"/></h1>
 
         <div class="form-floating">
@@ -93,20 +82,7 @@
     </form>
 </main>
 <script>
-    function checkIfPasswordEquals() {
-        document.getElementById("floatingConfirmPassword").setAttribute("pattern", document.getElementById("floatingPassword").value);
-    }
-
-    function showWarning(id) {
-        document.getElementById(id).removeAttribute("hidden");
-    }
-
-    function showModal() {
-        let myModal = new bootstrap.Modal(document.getElementById('myModal'), {});
-        myModal.toggle()
-    }
-
-    window.onload = showModal;
+    <%@include file="/WEB-INF/js/LoginRegistration.js" %>
 </script>
 </body>
 </html>

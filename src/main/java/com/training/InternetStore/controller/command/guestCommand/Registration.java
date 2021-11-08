@@ -21,14 +21,14 @@ public class Registration implements Command {
 
         if (!ValidationUtil.isLoginValid(login) || !ValidationUtil.isPasswordValid(password)) {
             request.setAttribute("error", "invalid data");
-            return "redirect:/app/registration";
+            return "redirect:/app/guest/registration";
         }
 
         if (userService.createNewUser(login, password)) {
-            return "redirect:/app/mainPage";
+            return "redirect:/app/guest/login";
         }
 
         session.setAttribute("loginAlreadyExist", "true");
-        return "redirect:/app/registration";
+        return "redirect:/app/guest/registration";
     }
 }

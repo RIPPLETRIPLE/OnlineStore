@@ -6,4 +6,5 @@ public class JSPPageConstants {
     public static final String MAIN_PAGE = "/WEB-INF/jsp/index.jsp";
     public static final String CART_PAGE = "/WEB-INF/jsp/user/cart.jsp";
     public static final String ORDERS_PAGE = "/WEB-INF/jsp/user/orders.jsp";
+    public static final String AUTH_ERROR_PAGE = "/WEB-INF/jsp/authError.jsp";
 }

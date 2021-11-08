@@ -42,10 +42,10 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getRequestURI();
 
-        path = path.replaceAll(".*/app/", "");
+        path = path.replaceAll(".*/app/.*/", "");
 
         Command command = commands.getOrDefault(path,
-                (r) -> "logout");
+                (r) -> "mainPage");
         String page = command.execute(request);
 
         if (page.contains("redirect:")) {
