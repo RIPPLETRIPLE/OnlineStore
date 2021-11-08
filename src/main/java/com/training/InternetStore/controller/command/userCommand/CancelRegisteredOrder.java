@@ -13,20 +13,21 @@ public class CancelRegisteredOrder implements Command {
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         int orderId;
 
+        String ordersPage = "redirect:/app/user/ordersPage";
         try {
             orderId = Integer.parseInt(request.getParameter("orderId"));
         } catch (NumberFormatException ex) {
-            return "redirect:" + "/app/user/ordersPage";
+            return ordersPage;
         }
         Order order;
 
         try {
             order = userService.getOrderByID(orderId).orElseThrow(FieldDontPresent::new);
         } catch (FieldDontPresent e) {
-            return "redirect:" + "/app/user/ordersPage";
+            return ordersPage;
         }
         userService.deleteOrder(order);
 
-        return "redirect:" + "/app/user/ordersPage";
+        return ordersPage;
     }
 }

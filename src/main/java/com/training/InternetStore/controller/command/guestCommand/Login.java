@@ -23,26 +23,26 @@ public class Login implements Command {
             return JSPPageConstants.LOGIN_PAGE;
         }
 
-        System.out.println("logging");
-
         User user = User.createUser(login, password);
         if (userService.DBContainsUser(user)) {
             if (CommandUtility.checkUserIsLogged(request.getSession(), user)) {
                 session.setAttribute("error", true);
                 session.setAttribute("errorType", "user_already_logged");
-                return "redirect:" + "/app/guest/login";
+                return "redirect:/app/guest/login";
             }
 
             session.setAttribute("user", user);
+
             if (session.getAttribute("cart") != null) {
                 userService.retainCartForLoggedUser((List<Order>) session.getAttribute("cart"), user);
                 session.removeAttribute("cart");
             }
-            return "redirect:" + "/app/user/mainPage";
+
+            return "redirect:/app/user/mainPage";
         }
 
         session.setAttribute("error", true);
         session.setAttribute("errorType", "wrong_data");
-        return "redirect:" + "/app/guest/login";
+        return "redirect:/app/guest/login";
     }
 }

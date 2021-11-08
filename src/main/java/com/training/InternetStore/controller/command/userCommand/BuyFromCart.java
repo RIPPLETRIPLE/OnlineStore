@@ -19,9 +19,11 @@ public class BuyFromCart implements Command {
         User user = session.getAttribute("user") != null ? (User) session.getAttribute("user") : null;
         User.Role role = user != null ? user.getRole() : User.Role.Guest;
 
+        String cartPage = "redirect:/app/" + role.toString().toLowerCase(Locale.ROOT) + "/cartPage";
+        String loginPage = "redirect:/app/guest/login";
 
         if (request.getSession().getAttribute("user") == null) {
-            return "redirect:" + "/app/guest/login";
+            return loginPage;
         }
 
         List<Order> orders = userService.getOrdersByStatus(user, OrderStatus.Unregistered);
@@ -29,6 +31,6 @@ public class BuyFromCart implements Command {
             userService.updateStatusForOrders(orders, OrderStatus.Registered);
         }
 
-        return "redirect:" + "/app/" + role.toString().toLowerCase(Locale.ROOT) + "/cartPage";
+        return cartPage;
     }
 }

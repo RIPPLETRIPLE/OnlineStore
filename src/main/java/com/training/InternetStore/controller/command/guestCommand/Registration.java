@@ -19,9 +19,11 @@ public class Registration implements Command {
             return JSPPageConstants.REGISTRATION_PAGE;
         }
 
+        String registrationPage = "redirect:/app/guest/registration";
+
         if (!ValidationUtil.isLoginValid(login) || !ValidationUtil.isPasswordValid(password)) {
             request.setAttribute("error", "invalid data");
-            return "redirect:/app/guest/registration";
+            return registrationPage;
         }
 
         if (userService.createNewUser(login, password)) {
@@ -29,6 +31,6 @@ public class Registration implements Command {
         }
 
         session.setAttribute("loginAlreadyExist", "true");
-        return "redirect:/app/guest/registration";
+        return registrationPage;
     }
 }

@@ -10,9 +10,11 @@ public class LocalisationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String lang = servletRequest.getParameter("lang");
+
         if (lang != null) {
             req.getSession().setAttribute("lang", lang);
         }
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }
