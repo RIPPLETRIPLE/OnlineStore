@@ -2,7 +2,6 @@ package com.training.InternetStore.controller.command;
 
 import com.training.InternetStore.model.entity.Product;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

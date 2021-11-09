@@ -7,16 +7,27 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = ((HttpServletRequest) servletRequest);
         HttpServletResponse httpResponse = ((HttpServletResponse) servletResponse);
-        User user = httpRequest.getSession().getAttribute("user") == null ? null
-                  : (User) httpRequest.getSession().getAttribute("user");
+        String userRole = httpRequest.getSession().getAttribute("user") == null ? "guest"
+                  : ((User) httpRequest.getSession().getAttribute("user")).getRole().toString().toLowerCase(Locale.ROOT);
 
-        if (user == null || user.getRole() != User.Role.Admin) {
+        String roleAccess = "guest";
+
+        Matcher m = Pattern.compile("(?<=\\/app\\/).*?(?=\\/)").matcher(httpRequest.getRequestURI());
+
+        if (m.find()) {
+            roleAccess = m.group();
+        }
+
+        if (!roleAccess.equals(userRole)) {
             httpRequest.getRequestDispatcher(JSPPageConstants.AUTH_ERROR_PAGE).forward(httpRequest, httpResponse);
         }
 

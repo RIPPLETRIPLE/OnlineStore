@@ -10,31 +10,35 @@
     <title><fmt:message key="main_page" bundle="${bundle}"/></title>
 </head>
 <body>
-
 <style>
     <%@include file="/WEB-INF/css/main.css"%>
 </style>
-
 <header>
     <%@include file="includes/navbar.jsp" %>
 </header>
-
 <main>
-    <body>
-
     <div class="container">
         <div class="card-header my-3"><fmt:message key="all_products" bundle="${bundle}"/>
         </div>
         <div class="btn-group">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 <fmt:message key="sort_by" bundle="${bundle}"/>
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/${role}/mainPage?sortBy=name"><fmt:message key="by_name" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/${role}/mainPage?sortBy=priceLow"><fmt:message key="by_price_low" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/${role}/mainPage?sortBy=priceHigh"><fmt:message key="by_price_high" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/${role}/mainPage"><fmt:message key="by_date_low" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/app/${role}/mainPage?sortBy=dateHigh"><fmt:message key="by_date_high" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${url}/mainPage?sortBy=name"><fmt:message
+                        key="by_name" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item"
+                       href="${url}}/mainPage?sortBy=priceLow"><fmt:message
+                        key="by_price_low" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item"
+                       href="${url}/mainPage?sortBy=priceHigh"><fmt:message
+                        key="by_price_high" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item" href="${url}/mainPage"><fmt:message
+                        key="by_date_low" bundle="${bundle}"/></a></li>
+                <li><a class="dropdown-item"
+                       href="${url}/mainPage?sortBy=dateHigh"><fmt:message
+                        key="by_date_high" bundle="${bundle}"/></a></li>
             </ul>
         </div>
         <br/>
@@ -49,13 +53,17 @@
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <h6 class="price"><fmt:message key="price" bundle="${bundle}"/>:
-                             ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}
-                             <fmt:message key="currency" bundle="${bundle}"/></h6>
+                                    ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}
+                                <fmt:message key="currency" bundle="${bundle}"/></h6>
                             <div class="mt-3 d-flex justify-content-between">
-                                <a class="btn btn-dark" href="${pageContext.request.contextPath}/app/${role}/addToCart?productId=${product.id}"><fmt:message key="add_to_cart"
-                                                                                            bundle="${bundle}"/></a> <a
-                                    class="btn btn-primary" href="${pageContext.request.contextPath}/app/${role}/orderNow?quantity=1&id="><fmt:message key="buy_now"
-                                                                                                         bundle="${bundle}"/></a>
+                                <a class="btn btn-dark"
+                                   href="${url}/addToCart?productId=${product.id}"><fmt:message
+                                        key="add_to_cart"
+                                        bundle="${bundle}"/></a> <a
+                                    class="btn btn-primary"
+                                    href="${url}/orderNow?quantity=1&id="><fmt:message
+                                    key="buy_now"
+                                    bundle="${bundle}"/></a>
                             </div>
                         </div>
                     </div>
@@ -63,7 +71,6 @@
             </c:forEach>
         </div>
     </div>
-    </body>
 </main>
 </body>
 </html>
