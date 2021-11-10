@@ -23,15 +23,25 @@
         <table class="table table-light table-sortable">
             <thead>
             <tr>
-                <th class="columnToSort" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
-                <th class="columnToSort" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
-                <th class="columnToSort" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
-                <th class="columnToSort" scope="col"><fmt:message key="status" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="status" bundle="${bundle}"/></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${requestScope.orders}" var="order">
+            <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 5}"/>
+
+            <c:choose>
+                <c:when test="${requestScope.orders.size() - firstIndex > 4}"><c:set var="lastIndex"
+                                                                                     value="${firstIndex + 4}"/></c:when>
+                <c:otherwise>
+                    <c:set var="lastIndex" value="${requestScope.orders.size()}"/>
+                </c:otherwise>
+            </c:choose>
+
+            <c:forEach items="${requestScope.orders}" var="order" begin="${firstIndex}" end="${lastIndex}">
                 <tr>
                     <td>
                             ${order.product.name}
@@ -57,6 +67,21 @@
             </c:forEach>
             </tbody>
         </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <c:set var="i" value="0"/>
+                <c:forEach items="${requestScope.orders}" var="order" begin="1">
+                    <c:if test="${requestScope.orders.indexOf(order) % 4 == 0}">
+                        <li class="page-item "><a class="page-link" aria-disabled="true"
+                                                  href="?page=${i = i + 1}">${i}</a>
+                        </li>
+                </c:if>
+                </c:forEach>
+                <c:if test="${requestScope.orders.size() % 5 != 0}">
+                <li class="page-item"><a class="page-link"
+                                         href="?page=${i = i + 1}">${i}</a></c:if>
+            </ul>
+        </nav>
     </div>
 </main>
 </body>

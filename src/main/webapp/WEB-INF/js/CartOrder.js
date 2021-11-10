@@ -33,16 +33,12 @@ function sortTableByColumn(table, columnId, asc = true) {
 
     tBody.append(...sortedRows);
 
-    console.log(columnId);
-    console.log(asc);
-
     table.querySelectorAll("th").forEach((th) => {
         th.classList.remove("th-sort-asc");
         th.classList.remove("th-sort-desc")
     });
 
     if (asc) {
-        console.log(table.querySelector(selector));
         table.querySelector(selector).classList.add("th-sort-asc");
     } else {
         table.querySelector(selector).classList.add("th-sort-desc");

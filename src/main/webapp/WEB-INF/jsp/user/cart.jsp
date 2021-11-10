@@ -23,9 +23,9 @@
         <table class="table table-light table-sortable">
             <thead>
             <tr>
-                <th class="columnToSort" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
-                <th class="columnToSort" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
-                <th class="columnToSort" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>

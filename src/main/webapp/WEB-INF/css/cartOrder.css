@@ -9,15 +9,13 @@
 .table-sortable .th-sort-desc::after {
     content: "\25be";
 }
-.columnToSort::after {
-    content: "\25b4";
-}
+
 .table-sortable .th-sort-asc::after,
 .table-sortable .th-sort-desc::after {
     margin-left: 5px;
 }
 
-.table-sortable .th-sort-asc,
-.table-sortable .th-sort-desc {
+.table-sortable .th-sort-asc:hover,
+.table-sortable .th-sort-desc:hover {
     background: rgba(0, 0, 0, 0.1);
 }

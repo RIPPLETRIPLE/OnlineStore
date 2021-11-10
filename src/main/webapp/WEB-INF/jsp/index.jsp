@@ -26,24 +26,24 @@
                 <fmt:message key="sort_by" bundle="${bundle}"/>
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="${url}/mainPage?sortBy=name"><fmt:message
+                <li><a class="dropdown-item sortCards asc" sortBy="name"><fmt:message
                         key="by_name" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item"
-                       href="${url}}/mainPage?sortBy=priceLow"><fmt:message
+                <li><a class="dropdown-item sortCards asc"
+                       sortBy="price"><fmt:message
                         key="by_price_low" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item"
-                       href="${url}/mainPage?sortBy=priceHigh"><fmt:message
+                <li><a class="dropdown-item sortCards"
+                       sortBy="price"><fmt:message
                         key="by_price_high" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item" href="${url}/mainPage"><fmt:message
+                <li><a class="dropdown-item sortCards asc" sortBy="id"><fmt:message
                         key="by_date_low" bundle="${bundle}"/></a></li>
-                <li><a class="dropdown-item"
-                       href="${url}/mainPage?sortBy=dateHigh"><fmt:message
+                <li><a class="dropdown-item sortCards"
+                       sortBy="id"><fmt:message
                         key="by_date_high" bundle="${bundle}"/></a></li>
             </ul>
         </div>
         <br/>
         <div class="row">
-            <c:forEach items="${pageContext.request.getAttribute('products')}" var="product">
+            <c:forEach items="${products}" var="product">
                 <div class="col-md-3 my-3">
                     <div class="card w-100">
                         <img class="card-img-top" src="/././product-image/${product.img}"
@@ -51,6 +51,8 @@
                                                          height: auto;
                                                          width: auto;">
                         <div class="card-body">
+                            <h1 class="name" hidden>${product.name}</h1>
+                            <h1 class="id" hidden>${product.id}</h1>
                             <h5 class="card-title">${product.name}</h5>
                             <h6 class="price"><fmt:message key="price" bundle="${bundle}"/>:
                                     ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}
@@ -72,5 +74,8 @@
         </div>
     </div>
 </main>
+<script>
+    <%@include file="/WEB-INF/js/MainPage.js" %>
+</script>
 </body>
 </html>
