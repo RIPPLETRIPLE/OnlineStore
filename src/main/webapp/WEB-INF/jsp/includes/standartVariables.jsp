@@ -16,7 +16,7 @@
 
 <c:choose>
     <c:when test="${not empty sessionScope.user}">
-        <c:set var="role" value="user"/>
+        <c:set var="role" value="${sessionScope.user.role.toString().toLowerCase()}"/>
     </c:when>
     <c:otherwise>
         <c:set var="role" value="guest"/>

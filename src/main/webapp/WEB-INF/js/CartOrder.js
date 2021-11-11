@@ -21,9 +21,14 @@ function sortTableByColumn(table, columnId, asc = true) {
     const rows = Array.from(tBody.querySelectorAll("tr"));
 
     const sortedRows = rows.sort((a, b) => {
-        const aColText = a.querySelector(selectorForSort).textContent.trim();
-        const bColText = b.querySelector(selectorForSort).textContent.trim();
-
+        let aColText = a.querySelector(selectorForSort).textContent.trim();
+        let bColText = b.querySelector(selectorForSort).textContent.trim();
+        if (columnId === 3) {
+            aColText = parseInt(aColText.substr(0, aColText.length - 1));
+            bColText = parseInt(bColText.substr(0, bColText.length - 1));
+        }
+        console.log(aColText);
+        console.log(bColText);
         return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
     });
 

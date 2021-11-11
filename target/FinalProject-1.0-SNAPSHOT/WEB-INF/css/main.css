@@ -1,3 +1,6 @@
 .localizationBtn {
     text-align: left;
 }
+.sortCards {
+    cursor: pointer;
+}

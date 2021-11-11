@@ -9,5 +9,7 @@ import java.io.IOException;
 
 public interface Command {
     UserService userService = UserService.getInstance();
+    AdminService adminService = AdminService.getInstance();
+
     String execute(HttpServletRequest request) throws ServletException, IOException;
 }

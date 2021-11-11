@@ -19,4 +19,5 @@ public class SQLConstants {
     public static final String UPDATE_ORDER = "UPDATE orders SET quantity = (?), user_ID = (?), product_ID = (?), status = (?) WHERE ID = (?)";
     public static final String DELETE_ORDER = "DELETE FROM orders WHERE ID = (?) ";
     public static final String FIND_ORDER_BY_ID = "SELECT * FROM orders WHERE id = (?)";
+    public static final String CREATE_PRODUCT = "INSERT INTO products (name, image, price , sex, category_ID, color_ID, size_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 }

@@ -11,10 +11,7 @@ import java.util.List;
 
 public class Demo {
     public static void main(String[] args) throws FieldDontPresent {
-        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
-        daoFactory.createProductDao().findAll().forEach((e) -> {
-            System.out.println(e);
-        });
+
         List<Order> orders = new ArrayList<>();
 
     }

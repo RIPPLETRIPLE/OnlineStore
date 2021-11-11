@@ -103,4 +103,32 @@ public class UserService implements Service {
             userService.createOrder(e);
         });
     }
+
+    public List<Product.Category> getAllCategories() {
+        return categoryDao.findAll();
+    }
+
+    public List<Product.Size> getAllSizes() {
+        return sizeDao.findAll();
+    }
+
+    public List<Product.Color> getAllColors() {
+        return colorDao.findAll();
+    }
+
+    public Product.Category getCategoryByID(int categoryId) throws FieldDontPresent {
+        return categoryDao.findById(categoryId).orElseThrow(FieldDontPresent::new);
+    }
+
+    public Product.Color getColorByID(int colorId) throws FieldDontPresent {
+        return colorDao.findById(colorId).orElseThrow(FieldDontPresent::new);
+    }
+
+    public Product.Size getSizeByID(int sizeId) throws FieldDontPresent {
+        return sizeDao.findById(sizeId).orElseThrow(FieldDontPresent::new);
+    }
+
+    public void createProduct(Product product) {
+        productDao.create(product);
+    }
 }

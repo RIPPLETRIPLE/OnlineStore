@@ -42,32 +42,31 @@
             </ul>
         </div>
         <br/>
-        <div class="row">
-            <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 5}"/>
-            <c:set var="products" value="${pageContext.request.getAttribute('products')}"/>
-            <c:choose>
-                <c:when test="${products.size() - firstIndex > 4}"><c:set
-                        var="lastIndex"
-                        value="${firstIndex + 4}"/></c:when>
-                <c:otherwise>
-                    <c:set var="lastIndex" value="${products.size()}"/>
-                </c:otherwise>
-            </c:choose>
+        <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 8}"/>
 
-            <c:forEach items="${products}" var="product" begin="${firstIndex}"
-                       end="${lastIndex}">
+        <c:choose>
+            <c:when test="${products.size() - firstIndex > 7}"><c:set var="lastIndex"
+                                                                                 value="${firstIndex + 7}"/></c:when>
+            <c:otherwise>
+                <c:set var="lastIndex" value="${products.size()}"/>
+            </c:otherwise>
+        </c:choose>
+
+        <div class="row">
+            <c:forEach items="${products}" var="product" begin="${firstIndex}" end="${lastIndex}">
                 <div class="col-md-3 my-3">
                     <div class="card w-100">
                         <img class="card-img-top" src="/././product-image/${product.img}"
                              alt="Card image cap" style="max-height: 300px;
+                                                         min-height: 300px;
                                                          height: auto;
                                                          width: auto;">
                         <div class="card-body">
                             <h1 class="name" hidden>${product.name}</h1>
                             <h1 class="id" hidden>${product.id}</h1>
                             <h5 class="card-title">${product.name}</h5>
-                            <h6 class="price"><fmt:message key="price" bundle="${bundle}"/>:
-                                    ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}
+                            <h6 ><fmt:message key="price" bundle="${bundle}"/>:
+                                    <span class="price">${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}</span>
                                 <fmt:message key="currency" bundle="${bundle}"/></h6>
                             <div class="mt-3 d-flex justify-content-between">
                                 <a class="btn btn-dark"
@@ -87,14 +86,14 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <c:set var="i" value="0"/>
-                <c:forEach items="${products}" var="product" begin="1">
-                    <c:if test="${products.indexOf(product) % 4 == 0}">
+                <c:forEach items="${products}" var="order" begin="1">
+                    <c:if test="${products.indexOf(order) % 7 == 0}">
                         <li class="page-item "><a class="page-link" aria-disabled="true"
                                                   href="?page=${i = i + 1}">${i}</a>
                         </li>
                     </c:if>
                 </c:forEach>
-                <c:if test="${requestScope.orders.size() % 5 != 0}">
+                <c:if test="${products.size() % 8 != 0}">
                 <li class="page-item"><a class="page-link"
                                          href="?page=${i = i + 1}">${i}</a></c:if>
             </ul>

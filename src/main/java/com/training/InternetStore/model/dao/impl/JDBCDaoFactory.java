@@ -8,35 +8,36 @@ import java.sql.SQLException;
 
 public class JDBCDaoFactory extends DaoFactory {
     private DataSource dataSource;
+    Connection connection = getConnection();
 
     @Override
     public UserDao createUserDao() {
-        return new JDBCUserDao(getConnection());
+        return new JDBCUserDao(connection);
     }
 
     @Override
     public ProductDao createProductDao() {
-        return new JDBCProductDao(getConnection());
+        return new JDBCProductDao(connection);
     }
 
     @Override
     public CategoryDao createCategoryDao() {
-        return new JDBCCategoryDao(getConnection());
+        return new JDBCCategoryDao(connection);
     }
 
     @Override
     public SizeDao createSizeDao() {
-        return new JDBCSizeDao(getConnection());
+        return new JDBCSizeDao(connection);
     }
 
     @Override
     public ColorDao createColorDao() {
-        return new JDBCColorDao(getConnection());
+        return new JDBCColorDao(connection);
     }
 
     @Override
     public OrderDao createOrderDao() {
-        return new JDBCOrderDao(getConnection());
+        return new JDBCOrderDao(connection);
     }
 
     private Connection getConnection() {

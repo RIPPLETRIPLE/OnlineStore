@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
+
+
     protected String resourcePropertiesName = "db";
     public static DaoFactory getInstance(Class<? extends DaoFactory> type) {
 

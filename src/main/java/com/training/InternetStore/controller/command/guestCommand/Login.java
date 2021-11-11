@@ -38,7 +38,12 @@ public class Login implements Command {
                 session.removeAttribute("cart");
             }
 
-            return "redirect:/app/user/mainPage";
+            if (user.getRole() == User.Role.User) {
+                return "redirect:/app/user/mainPage";
+            }
+            if (user.getRole() == User.Role.Admin) {
+                return "redirect:/app/admin/addProductPage";
+            }
         }
 
         session.setAttribute("error", true);

@@ -21,7 +21,29 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public boolean create(Product entity) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_PRODUCT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int i = 0;
+
+            pstmt.setString(++i, entity.getName());
+            pstmt.setString(++i, entity.getImg());
+            pstmt.setInt(++i, entity.getPrice());
+            pstmt.setString(++i, entity.getSex().toString());
+            pstmt.setLong(++i, entity.getCategory().getId());
+            pstmt.setLong(++i, entity.getColor().getId());
+            pstmt.setLong(++i, entity.getSize().getId());
+            if (pstmt.executeUpdate() > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        entity.setId(rs.getLong(1));
+                    }
+                    result = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 
     @Override

@@ -8,6 +8,6 @@ import java.sql.SQLException;
 public class CategoryMapper implements Mapper<Product.Category> {
     @Override
     public Product.Category extractFromResultSet(ResultSet rs) throws SQLException {
-        return Product.Category.createCategory(rs.getString("category"));
+        return Product.Category.createCategory(rs.getLong("id"), rs.getString("category"));
     }
 }

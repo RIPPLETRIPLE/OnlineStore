@@ -3,15 +3,18 @@ function sortCards(row, sortMethod, asc) {
 
     const cards = Array.from(row.querySelectorAll('.col-md-3')).sort((a, b) => {
         const classForFind = "." + sortMethod;
-        console.log(classForFind);
-        return a.querySelector(classForFind).textContent.trim() > b.querySelector(classForFind).textContent.trim() ? (1 * dirModifier) : (-1 * dirModifier);
+
+        if (sortMethod === "price") {
+            return parseInt(a.querySelector(classForFind).textContent.trim()) - parseInt(b.querySelector(classForFind).textContent.trim()) > 0 ? (1 * dirModifier) : (-1 * dirModifier);
+        } else {
+            return a.querySelector(classForFind).textContent.trim() > b.querySelector(classForFind).textContent.trim() ? (1 * dirModifier) : (-1 * dirModifier);
+        }
     })
 
 
     while (row.firstChild) {
         row.removeChild(row.firstChild);
     }
-
     row.append(...cards);
 }
 

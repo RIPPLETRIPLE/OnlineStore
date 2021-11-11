@@ -1,5 +1,7 @@
 package com.training.InternetStore.controller;
 import com.training.InternetStore.controller.command.Command;
+import com.training.InternetStore.controller.command.adminCommand.AddProduct;
+import com.training.InternetStore.controller.command.adminCommand.AddProductPage;
 import com.training.InternetStore.controller.command.guestCommand.LogOut;
 import com.training.InternetStore.controller.command.guestCommand.Login;
 import com.training.InternetStore.controller.command.guestCommand.Registration;
@@ -26,6 +28,8 @@ public class Controller extends HttpServlet {
         commands.put("buyFromCart", new BuyFromCart());
         commands.put("ordersPage", new OrdersPage());
         commands.put("cancelRegisteredOrder", new CancelRegisteredOrder());
+        commands.put("addProductPage", new AddProductPage());
+        commands.put("addProduct", new AddProduct());
     }
 
     @Override

@@ -8,6 +8,6 @@ import java.sql.SQLException;
 public class SizeMapper implements Mapper<Product.Size> {
     @Override
     public Product.Size extractFromResultSet(ResultSet rs) throws SQLException {
-        return Product.Size.createSize(rs.getString("size"));
+        return Product.Size.createSize(rs.getLong("id"), rs.getString("size"));
     }
 }

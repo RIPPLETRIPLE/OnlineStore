@@ -8,6 +8,6 @@ import java.sql.SQLException;
 public class ColorMapper implements Mapper<Product.Color>{
     @Override
     public Product.Color extractFromResultSet(ResultSet rs) throws SQLException {
-        return Product.Color.createColor(rs.getString("color"));
+        return Product.Color.createColor(rs.getLong("id"), rs.getString("color"));
     }
 }

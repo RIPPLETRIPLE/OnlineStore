@@ -124,12 +124,13 @@ public class Product {
         private long id;
         private String name;
 
-        private Category(String name) {
-            this.name = name;
+        private Category(long id, String category) {
+            this.id = id;
+            this.name = category;
         }
 
-        public static Category createCategory(String name) {
-            return new Category(name);
+        public static Category createCategory(long id, String category) {
+            return new Category(id, category);
         }
 
         public long getId() {
@@ -161,12 +162,13 @@ public class Product {
         private long id;
         private String color;
 
-        private Color(String color) {
+        private Color(long id, String color) {
+            this.id = id;
             this.color = color;
         }
 
-        public static Color createColor(String color) {
-            return new Color(color);
+        public static Color createColor(long id, String color) {
+            return new Color(id, color);
         }
 
 
@@ -199,12 +201,13 @@ public class Product {
         private long id;
         private String size;
 
-        private Size(String size) {
+        private Size(long id, String size) {
+            this.id = id;
             this.size = size;
         }
 
-        public static Size createSize(String size) {
-            return new Size(size);
+        public static Size createSize(long id, String size) {
+            return new Size(id, size);
         }
 
         public long getId() {
