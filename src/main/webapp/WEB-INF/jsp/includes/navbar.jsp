@@ -16,6 +16,11 @@
                                                                                                  bundle="${bundle}"/></a>
                     </li>
                 </c:if>
+                <c:if test="${role == 'admin'}">
+                    <li class="nav-item"><a class="nav-link" href="${url}/productsManagePage"><fmt:message key="products"
+                                                                                                 bundle="${bundle}"/></a>
+                    </li>
+                </c:if>
                 <c:if test="${role == 'user'}">
                     <li class="nav-item"><a class="nav-link" href="${url}/ordersPage"><fmt:message key="orders"
                                                                                                    bundle="${bundle}"/></a>

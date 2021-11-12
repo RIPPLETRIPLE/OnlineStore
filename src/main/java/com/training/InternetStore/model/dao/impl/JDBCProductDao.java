@@ -86,8 +86,14 @@ public class JDBCProductDao implements ProductDao {
     }
 
     @Override
-    public void delete(Product id) {
-
+    public void delete(Product product) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_PRODUCT)) {
+            int i = 0;
+            pstmt.setLong(++i, product.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override

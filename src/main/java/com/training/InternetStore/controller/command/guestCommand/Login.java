@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class Login implements Command {
     @Override
@@ -38,12 +39,7 @@ public class Login implements Command {
                 session.removeAttribute("cart");
             }
 
-            if (user.getRole() == User.Role.User) {
-                return "redirect:/app/user/mainPage";
-            }
-            if (user.getRole() == User.Role.Admin) {
-                return "redirect:/app/admin/addProductPage";
-            }
+            return "redirect:/app/" + user.getRole().toString().toLowerCase(Locale.ROOT) + "/mainPage";
         }
 
         session.setAttribute("error", true);

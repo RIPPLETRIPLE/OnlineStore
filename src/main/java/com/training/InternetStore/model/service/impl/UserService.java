@@ -131,4 +131,8 @@ public class UserService implements Service {
     public void createProduct(Product product) {
         productDao.create(product);
     }
+
+    public void deleteProduct(Product product) {
+         productDao.delete(product);
+    }
 }

@@ -26,12 +26,22 @@
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
-                <th scope="col"></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="status" bundle="${bundle}"/></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${cart}" var="order">
+            <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 5}"/>
+
+            <c:choose>
+                <c:when test="${requestScope.orders.size() - firstIndex > 4}"><c:set var="lastIndex"
+                                                                                     value="${firstIndex + 4}"/></c:when>
+                <c:otherwise>
+                    <c:set var="lastIndex" value="${requestScope.orders.size()}"/>
+                </c:otherwise>
+            </c:choose>
+
+            <c:forEach items="${requestScope.orders}" var="order" begin="${firstIndex}" end="${lastIndex}">
                 <tr>
                     <td>
                             ${order.product.name}
@@ -44,34 +54,34 @@
                         <fmt:message key="currency" bundle="${bundle}"/>
                     </td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/app/${role}/order" method="post"
-                              class="form-inline">
-                            <input type="hidden" name="id" value="${order.product.id}" class="form-input">
-                            <div class="form-group d-flex justify-content-between">
-                                <a class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field=""
-                                   href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=increment&productId=${order.product.id}">+</a>
-                                <input type="text" name="quantity" class="form-control" value="${order.quantity}"
-                                       readonly>
-                                <a class="quantity-left-minus btn btn-danger btn-numbe" data-type="minus" data-field=""
-                                   href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=decrement&productId=${order.product.id}">-</a>
-                            </div>
-                        </form>
+                            ${order.status}
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=remove&productId=${order.product.id}"
-                           class="btn btn-sm btn-danger"><fmt:message key="delete"
-                                                                      bundle="${bundle}"/></a>
+                        <c:if test="${order.status == 'Registered'}">
+                            <a href="${url}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
+                               class="btn btn-sm btn-danger"><fmt:message key="cancel"
+                                                                          bundle="${bundle}"/></a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <c:if test="${not empty cart}">
-            <div class="d-flex justify-content-end"><a href="${pageContext.request.contextPath}/app/${role}/buyFromCart"
-                                                       class="btn btn-primary"><fmt:message key="buy"
-                                                                                            bundle="${bundle}"/></a>
-            </div>
-        </c:if>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <c:set var="i" value="0"/>
+                <c:forEach items="${requestScope.orders}" var="order" begin="1">
+                    <c:if test="${requestScope.orders.indexOf(order) % 4 == 0}">
+                        <li class="page-item "><a class="page-link" aria-disabled="true"
+                                                  href="?page=${i = i + 1}">${i}</a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${requestScope.orders.size() % 5 != 0}">
+                <li class="page-item"><a class="page-link"
+                                         href="?page=${i = i + 1}">${i}</a></c:if>
+            </ul>
+        </nav>
     </div>
 </main>
 </body>

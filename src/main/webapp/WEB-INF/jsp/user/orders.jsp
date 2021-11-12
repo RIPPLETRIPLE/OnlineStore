@@ -8,7 +8,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <style>
-        <%@include file="/WEB-INF/css/cartOrder.css" %>
+        <%@include file="/WEB-INF/css/sortTable.css" %>
     </style>
     <title><fmt:message key="main_page" bundle="${bundle}"/></title>
 </head>
@@ -47,7 +47,7 @@
                             ${order.product.name}
                     </td>
                     <td>
-                        Category
+                            ${order.product.category.name}
                     </td>
                     <td class="price">
                             ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * order.product.price * order.quantity : order.product.price * order.quantity}
@@ -58,7 +58,7 @@
                     </td>
                     <td>
                         <c:if test="${order.status == 'Registered'}">
-                            <a href="${pageContext.request.contextPath}/app/${role}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
+                            <a href="${url}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
                                class="btn btn-sm btn-danger"><fmt:message key="cancel"
                                                                           bundle="${bundle}"/></a>
                         </c:if>
@@ -86,6 +86,6 @@
 </main>
 </body>
 <script>
-    <%@include file="/WEB-INF/js/CartOrder.js" %>
+    <%@include file="/WEB-INF/js/TableScripts.js" %>
 </script>
 </html>
