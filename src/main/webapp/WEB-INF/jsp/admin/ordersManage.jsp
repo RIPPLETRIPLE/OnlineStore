@@ -18,70 +18,70 @@
 </header>
 <main>
     <div class="container my-3">
-        <div class="d-flex py-3"><h3 id="totalPrice"><fmt:message key="total_price" bundle="${bundle}"/>:
-            <fmt:message key="currency" bundle="${bundle}"/></h3></div>
         <table class="table table-light table-sortable">
             <thead>
             <tr>
-                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
-                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="category" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="login" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="product" bundle="${bundle}"/></th>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="price" bundle="${bundle}"/></th>
-                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="status" bundle="${bundle}"/></th>
+                <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="quantity" bundle="${bundle}"/></th>
+                <th scope="col"><fmt:message key="status" bundle="${bundle}"/></th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 5}"/>
-
-            <c:choose>
-                <c:when test="${requestScope.orders.size() - firstIndex > 4}"><c:set var="lastIndex"
-                                                                                     value="${firstIndex + 4}"/></c:when>
-                <c:otherwise>
-                    <c:set var="lastIndex" value="${requestScope.orders.size()}"/>
-                </c:otherwise>
-            </c:choose>
-
-            <c:forEach items="${requestScope.orders}" var="order" begin="${firstIndex}" end="${lastIndex}">
-                <tr>
-                    <td>
-                            ${order.product.name}
-                    </td>
-                    <td>
-                            ${order.product.category.name}
-                    </td>
-                    <td class="price">
-                            ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * order.product.price * order.quantity : order.product.price * order.quantity}
-                        <fmt:message key="currency" bundle="${bundle}"/>
-                    </td>
-                    <td>
-                            ${order.status}
-                    </td>
-                    <td>
-                        <c:if test="${order.status == 'Registered'}">
-                            <a href="${url}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
+            <c:forEach items="${requestScope.usersToOrders}" var="userToOrders">
+                <c:forEach items="${userToOrders.value}" var="order">
+                    <c:if test="${order.status.toString().toLowerCase() != 'unregistered'}">
+                        <tr>
+                            <td>
+                                    ${userToOrders.key.login}
+                            </td>
+                            <td>
+                                    ${order.product.name}
+                            </td>
+                            <td class="price">
+                                    ${order.product.price}
+                            </td>
+                            <td>
+                                    ${order.quantity}
+                            </td>
+                            <form action="${url}/updateOrderStatus?orderId=${order.id}" method="post">
+                                <td>
+                                    <select class="form-select" name="status" required>
+                                        <option
+                                                value="Registered"
+                                                <c:if test="${order.status.toString().toLowerCase() == 'registered'}">selected
+                                                hidden</c:if>><fmt:message key="registered"
+                                                                           bundle="${bundle}"/></option>
+                                        <option
+                                                value="Paid"
+                                                <c:if test="${order.status.toString().toLowerCase() == 'paid'}">selected
+                                                hidden</c:if>><fmt:message key="paid" bundle="${bundle}"/></option>
+                                        <option
+                                                value="Canceled"
+                                                <c:if test="${order.status.toString().toLowerCase() == 'canceled'}">selected
+                                                hidden</c:if>><fmt:message key="canceled" bundle="${bundle}"/></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="submit"
+                                            class="btn btn-sm btn-primary"><fmt:message key="update"
+                                                                                        bundle="${bundle}"/></button>
+                                </td>
+                            </form>
+                            <td>
+                            <a href="${url}/deleteOrder?orderId=${order.id}"
                                class="btn btn-sm btn-danger"><fmt:message key="cancel"
                                                                           bundle="${bundle}"/></a>
-                        </c:if>
-                    </td>
-                </tr>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
             </c:forEach>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <c:set var="i" value="0"/>
-                <c:forEach items="${requestScope.orders}" var="order" begin="1">
-                    <c:if test="${requestScope.orders.indexOf(order) % 4 == 0}">
-                        <li class="page-item "><a class="page-link" aria-disabled="true"
-                                                  href="?page=${i = i + 1}">${i}</a>
-                        </li>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${requestScope.orders.size() % 5 != 0}">
-                <li class="page-item"><a class="page-link"
-                                         href="?page=${i = i + 1}">${i}</a></c:if>
-            </ul>
-        </nav>
     </div>
 </main>
 </body>

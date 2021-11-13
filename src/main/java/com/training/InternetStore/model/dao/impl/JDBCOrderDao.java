@@ -143,4 +143,23 @@ public class JDBCOrderDao implements OrderDao {
         }
         return Optional.empty();
     }
+
+    @Override
+    public List<Order> findAllOrdersForUser(User user) {
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_ALL_ORDERS_FOR_USER)) {
+            pstmt.setLong(1, user.getId());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    orders.add(orderMapper.extractFromResultSet(rs));
+                }
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (FieldDontPresent fieldDontPresent) {
+            return orders;
+        }
+        return orders;
+    }
 }

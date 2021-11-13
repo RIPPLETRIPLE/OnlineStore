@@ -54,7 +54,7 @@
                         <fmt:message key="currency" bundle="${bundle}"/>
                     </td>
                     <td>
-                            ${order.status}
+                        <fmt:message key="${order.status.toString().toLowerCase()}" bundle="${bundle}"/>
                     </td>
                     <td>
                         <c:if test="${order.status == 'Registered'}">
@@ -71,7 +71,7 @@
             <ul class="pagination justify-content-center">
                 <c:set var="i" value="0"/>
                 <c:forEach items="${requestScope.orders}" var="order" begin="1">
-                    <c:if test="${requestScope.orders.indexOf(order) % 4 == 0}">
+                    <c:if test="${requestScope.orders.indexOf(order) % 5 == 0}">
                         <li class="page-item "><a class="page-link" aria-disabled="true"
                                                   href="?page=${i = i + 1}">${i}</a>
                         </li>

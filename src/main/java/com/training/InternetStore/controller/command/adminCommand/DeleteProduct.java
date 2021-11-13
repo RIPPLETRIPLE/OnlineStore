@@ -16,7 +16,7 @@ public class DeleteProduct implements Command {
             Product product = userService.getProductById(productId);
             userService.deleteProduct(product);
         } catch (Exception ex) {
-            return JSPPageConstants.MANAGE_PRODUCTS;
+            return JSPPageConstants.MANAGE_PRODUCTS_PAGE;
         }
         return "redirect:/app/admin/productsManagePage";
     }

@@ -87,7 +87,7 @@
             <ul class="pagination justify-content-center">
                 <c:set var="i" value="0"/>
                 <c:forEach items="${products}" var="order" begin="1">
-                    <c:if test="${products.indexOf(order) % 7 == 0}">
+                    <c:if test="${products.indexOf(order) % 8 == 0}">
                         <li class="page-item "><a class="page-link" aria-disabled="true"
                                                   href="?page=${i = i + 1}">${i}</a>
                         </li>

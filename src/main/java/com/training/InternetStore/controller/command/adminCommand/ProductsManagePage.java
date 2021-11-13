@@ -17,6 +17,6 @@ public class ProductsManagePage implements Command {
         request.setAttribute("colors", userService.getAllColors());
         request.setAttribute("sizes", userService.getAllSizes());
         request.setAttribute("products", userService.getAllProducts());
-        return JSPPageConstants.MANAGE_PRODUCTS;
+        return JSPPageConstants.MANAGE_PRODUCTS_PAGE;
     }
 }

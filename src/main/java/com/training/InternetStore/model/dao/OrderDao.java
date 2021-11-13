@@ -12,4 +12,6 @@ public interface OrderDao extends GenericDao<Order>{
     public List<Order> findOrdersForUserByOrderStatus(User user, OrderStatus status);
 
     Optional<Order> findOrderForUserByOrderStatusAndProduct(User user, Product product, OrderStatus unregistered);
+
+    List<Order> findAllOrdersForUser(User user);
 }

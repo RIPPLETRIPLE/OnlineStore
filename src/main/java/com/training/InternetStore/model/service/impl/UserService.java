@@ -135,4 +135,8 @@ public class UserService implements Service {
     public void deleteProduct(Product product) {
          productDao.delete(product);
     }
+
+    public List<User> getAllUsers() {
+        return userDao.findAll();
+    }
 }

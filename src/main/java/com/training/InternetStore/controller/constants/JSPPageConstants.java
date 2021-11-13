@@ -7,6 +7,6 @@ public class JSPPageConstants {
     public static final String CART_PAGE = "/WEB-INF/jsp/user/cart.jsp";
     public static final String ORDERS_PAGE = "/WEB-INF/jsp/user/orders.jsp";
     public static final String AUTH_ERROR_PAGE = "/WEB-INF/jsp/authError.jsp";
-    public static final String ADD_PRODUCT_PAGE = "/WEB-INF/jsp/admin/addProduct.jsp";
-    public static final String MANAGE_PRODUCTS = "/WEB-INF/jsp/admin/productsManage.jsp";
+    public static final String MANAGE_PRODUCTS_PAGE = "/WEB-INF/jsp/admin/productsManage.jsp";
+    public static final String MANAGE_ORDERS_PAGE = "/WEB-INF/jsp/admin/ordersManage.jsp";
 }
