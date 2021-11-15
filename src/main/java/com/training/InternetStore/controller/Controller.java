@@ -1,10 +1,22 @@
 package com.training.InternetStore.controller;
 import com.training.InternetStore.controller.command.Command;
-import com.training.InternetStore.controller.command.adminCommand.*;
+import com.training.InternetStore.controller.command.adminCommand.orderCommands.DeleteOrder;
+import com.training.InternetStore.controller.command.adminCommand.orderCommands.OrdersManagePage;
+import com.training.InternetStore.controller.command.adminCommand.orderCommands.UpdateOrderStatus;
+import com.training.InternetStore.controller.command.adminCommand.productCommands.AddProduct;
+import com.training.InternetStore.controller.command.adminCommand.productCommands.DeleteProduct;
+import com.training.InternetStore.controller.command.adminCommand.productCommands.ProductsManagePage;
+import com.training.InternetStore.controller.command.adminCommand.productCommands.UpdateProduct;
 import com.training.InternetStore.controller.command.guestCommand.LogOut;
 import com.training.InternetStore.controller.command.guestCommand.Login;
 import com.training.InternetStore.controller.command.guestCommand.Registration;
 import com.training.InternetStore.controller.command.userCommand.*;
+import com.training.InternetStore.controller.command.userCommand.cartCommands.AddToCart;
+import com.training.InternetStore.controller.command.userCommand.cartCommands.BuyFromCart;
+import com.training.InternetStore.controller.command.userCommand.cartCommands.CartPage;
+import com.training.InternetStore.controller.command.userCommand.cartCommands.ChangeProductQuantity;
+import com.training.InternetStore.controller.command.userCommand.orderCommands.CancelRegisteredOrder;
+import com.training.InternetStore.controller.command.userCommand.orderCommands.OrdersPage;
 
 import java.io.*;
 import java.util.HashMap;
@@ -32,6 +44,7 @@ public class Controller extends HttpServlet {
         commands.put("updateOrderStatus", new UpdateOrderStatus());
         commands.put("ordersManagePage", new OrdersManagePage());
         commands.put("deleteOrder", new DeleteOrder());
+        commands.put("updateProduct", new UpdateProduct());
     }
 
     @Override

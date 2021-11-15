@@ -1,4 +1,4 @@
-package com.training.InternetStore.controller.command.userCommand;
+package com.training.InternetStore.controller.command.userCommand.cartCommands;
 
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.model.entity.Order;

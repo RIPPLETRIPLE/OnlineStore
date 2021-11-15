@@ -8,7 +8,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <style>
-        <%@include file="/WEB-INF/css/sortTable.css" %>
+        <%@include file="/WEB-INF/css/table.css" %>
     </style>
     <title><fmt:message key="main_page" bundle="${bundle}"/></title>
 </head>
@@ -18,7 +18,11 @@
 </header>
 <main>
     <div class="container my-3">
-        <table class="table table-light table-sortable">
+        <div class="input-group rounded">
+            <input type="search" id="search" onkeyup="search()" class="form-control rounded search" placeholder="<fmt:message key="search_by_login" bundle="${bundle}"/>" aria-label="Search"
+                   aria-describedby="search-addon"/>
+        </div>
+        <table class="table table-light table-sortable" id="myTable">
             <thead>
             <tr>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="login" bundle="${bundle}"/></th>
@@ -72,9 +76,9 @@
                                 </td>
                             </form>
                             <td>
-                            <a href="${url}/deleteOrder?orderId=${order.id}"
-                               class="btn btn-sm btn-danger"><fmt:message key="cancel"
-                                                                          bundle="${bundle}"/></a>
+                                <a href="${url}/deleteOrder?orderId=${order.id}"
+                                   class="btn btn-sm btn-danger"><fmt:message key="cancel"
+                                                                              bundle="${bundle}"/></a>
                             </td>
                         </tr>
                     </c:if>

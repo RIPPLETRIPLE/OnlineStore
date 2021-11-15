@@ -18,7 +18,12 @@
 </header>
 <main>
     <div class="container">
-        <div class="card-header my-3"><fmt:message key="all_products" bundle="${bundle}"/>
+        <div class="d-flex justify-content-between card-header my-3">
+            <div><fmt:message key="all_products" bundle="${bundle}"/></div>
+            <input type="search" id="search" onkeyup="search()" class="form-control rounded search"
+                   placeholder="<fmt:message key="search_by_name" bundle="${bundle}"/>"
+                   aria-label="Search"
+                   aria-describedby="search-addon"/>
         </div>
         <div class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -46,7 +51,7 @@
 
         <c:choose>
             <c:when test="${products.size() - firstIndex > 7}"><c:set var="lastIndex"
-                                                                                 value="${firstIndex + 7}"/></c:when>
+                                                                      value="${firstIndex + 7}"/></c:when>
             <c:otherwise>
                 <c:set var="lastIndex" value="${products.size()}"/>
             </c:otherwise>
@@ -65,18 +70,14 @@
                             <h1 class="name" hidden>${product.name}</h1>
                             <h1 class="id" hidden>${product.id}</h1>
                             <h5 class="card-title">${product.name}</h5>
-                            <h6 ><fmt:message key="price" bundle="${bundle}"/>:
-                                    <span class="price">${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}</span>
+                            <h6><fmt:message key="price" bundle="${bundle}"/>:
+                                <span class="price">${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}</span>
                                 <fmt:message key="currency" bundle="${bundle}"/></h6>
                             <div class="mt-3 d-flex justify-content-between">
                                 <a class="btn btn-dark"
                                    href="${url}/addToCart?productId=${product.id}"><fmt:message
                                         key="add_to_cart"
-                                        bundle="${bundle}"/></a> <a
-                                    class="btn btn-primary"
-                                    href="${url}/orderNow?quantity=1&id="><fmt:message
-                                    key="buy_now"
-                                    bundle="${bundle}"/></a>
+                                        bundle="${bundle}"/></a>
                             </div>
                         </div>
                     </div>

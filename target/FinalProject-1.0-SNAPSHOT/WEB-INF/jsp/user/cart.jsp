@@ -8,7 +8,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <style>
-        <%@include file="/WEB-INF/css/sortTable.css" %>
+        <%@include file="/WEB-INF/css/table.css" %>
     </style>
     <title><fmt:message key="main_page" bundle="${bundle}"/></title>
 </head>

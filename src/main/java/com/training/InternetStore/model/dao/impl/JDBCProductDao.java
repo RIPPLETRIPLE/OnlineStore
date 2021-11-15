@@ -97,7 +97,21 @@ public class JDBCProductDao implements ProductDao {
     }
 
     @Override
-    public boolean update(Product entity) {
+    public boolean update(Product product) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_PRODUCT)) {
+            int i = 0;
+            pstmt.setString(++i, product.getName());
+            pstmt.setString(++i, product.getImg());
+            pstmt.setLong(++i, product.getPrice());
+            pstmt.setString(++i, product.getSex().toString());
+            pstmt.setLong(++i, product.getCategory().getId());
+            pstmt.setLong(++i, product.getSize().getId());
+            pstmt.setLong(++i, product.getColor().getId());
+            pstmt.setLong(++i, product.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 

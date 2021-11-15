@@ -1,4 +1,4 @@
-package com.training.InternetStore.controller.command.adminCommand;
+package com.training.InternetStore.controller.command.adminCommand.orderCommands;
 
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.constants.JSPPageConstants;

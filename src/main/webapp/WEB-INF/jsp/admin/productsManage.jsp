@@ -8,7 +8,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <style>
-        <%@include file="/WEB-INF/css/sortTable.css" %>
+        <%@include file="/WEB-INF/css/table.css" %>
     </style>
     <title><fmt:message key="sign_in" bundle="${bundle}"/></title>
 </head>
@@ -18,14 +18,18 @@
 </header>
 <main>
     <div class="container my-3">
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+        <div class="d-flex justify-content-between">
+            <input type="search" id="search" onkeyup="search()" class="form-control rounded search"
+                   placeholder="<fmt:message key="search_by_name" bundle="${bundle}"/>" aria-label="Search"
+                   aria-describedby="search-addon"/>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"
+                    style="margin-bottom: 10px">
                 <fmt:message key="add"
                              bundle="${bundle}"/>
             </button>
         </div>
 
-        <table class="table table-light table-sortable">
+        <table class="table table-light table-sortable" id="myTable">
             <thead>
             <tr>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="name" bundle="${bundle}"/></th>
@@ -34,6 +38,7 @@
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="size" bundle="${bundle}"/></th>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="color" bundle="${bundle}"/></th>
                 <th class="columnToSort th-sort-asc" scope="col"><fmt:message key="sex" bundle="${bundle}"/></th>
+                <th class="col"></th>
                 <th class="col"></th>
             </tr>
             </thead>
@@ -69,11 +74,77 @@
                     <td>
                             ${product.sex.toString()}
                     </td>
+                    <td><a class="updateUrl"><fmt:message key="update"
+                                                          bundle="${bundle}"/></a></td>
                     <td>
                         <a href="${url}/deleteProduct?productId=${product.id}"
                            class="btn btn-sm btn-danger"><fmt:message key="delete"
                                                                       bundle="${bundle}"/></a>
                     </td>
+                </tr>
+                <tr class="update" hidden>
+                    <form action="${url}/updateProduct?productId=${product.id}" method="post" autocomplete="off">
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="name" value="${product.name}" required
+                                       placeholder="<fmt:message key="name" bundle="${bundle}"/>">
+                            </div>
+                        </td>
+                        <td>
+                            <select class="form-select" name="category" required>
+                                <c:forEach items="${requestScope.categories}" var="category">
+                                    <option <c:if test="${product.category.name == category.name}">selected
+                                            </c:if> value="${category.id}">${category.name}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="price" pattern="\d+"
+                                       value="${product.price}" required
+                                       placeholder="<fmt:message key="price" bundle="${bundle}"/>">
+                            </div>
+                        </td>
+                        <td>
+                            <select class="form-select" name="size" required>
+                                <c:forEach items="${requestScope.sizes}" var="size">
+                                    <option
+                                            <c:if test="${product.size.size == size.size}">selected
+                                            </c:if> value="${size.id}">${size.size}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" name="color" required>
+                                <c:forEach items="${requestScope.colors}" var="color">
+                                    <option
+                                            <c:if test="${product.color.color == color.color}">selected
+                                            </c:if> value="${color.id}">${color.color}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" name="sex" required>
+                                <option
+                                        <c:if test="${product.sex.toString() == 'Male'}">selected
+                                        </c:if> value="Male">Male
+                                </option>
+                                <option
+                                        <c:if test="${product.sex.toString() == 'Female'}">selected
+                                        </c:if> value="Female">Female
+                                </option>
+                                <option
+                                        <c:if test="${product.sex.toString() == 'Unisex'}">selected
+                                        </c:if> value="Unisex">Unisex
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="w-100 btn btn-sm btn-primary" type="submit"><fmt:message key="update"
+                                                                                                    bundle="${bundle}"/></button>
+                        </td>
+                    </form>
+                    <td></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -82,7 +153,7 @@
             <ul class="pagination justify-content-center">
                 <c:set var="i" value="0"/>
                 <c:forEach items="${requestScope.products}" var="product" begin="1">
-                    <c:if test="${requestScope.products.indexOf(product) % 4 == 0}">
+                    <c:if test="${requestScope.products.indexOf(product) % 5 == 0}">
                         <li class="page-item "><a class="page-link" aria-disabled="true"
                                                   href="?page=${i = i + 1}">${i}</a>
                         </li>
@@ -125,7 +196,7 @@
                             </c:forEach>
                         </select>
                         <br/>
-                        <select class="form-select" name="size" required>
+                        <select class="form-select" name="sex" required>
                             <option disabled selected hidden><fmt:message key="sex" bundle="${bundle}"/></option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -157,7 +228,7 @@
 </main>
 </body>
 <script>
-    <%@include file="/WEB-INF/js/ManageProducts.js" %>
     <%@include file="/WEB-INF/js/TableScripts.js" %>
+    <%@include file="/WEB-INF/js/ProductsManage.js" %>
 </script>
 </html>

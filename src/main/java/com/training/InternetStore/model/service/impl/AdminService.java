@@ -1,6 +1,7 @@
 package com.training.InternetStore.model.service.impl;
 
 import com.training.InternetStore.model.entity.Order;
+import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.service.Service;
 
@@ -36,5 +37,9 @@ public class AdminService implements Service {
 
     public void updateOrder(Order order) {
         orderDao.update(order);
+    }
+
+    public void updateProduct(Product product) {
+        productDao.update(product);
     }
 }

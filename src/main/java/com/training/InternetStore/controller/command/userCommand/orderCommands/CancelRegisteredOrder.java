@@ -1,4 +1,4 @@
-package com.training.InternetStore.controller.command.userCommand;
+package com.training.InternetStore.controller.command.userCommand.orderCommands;
 
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
