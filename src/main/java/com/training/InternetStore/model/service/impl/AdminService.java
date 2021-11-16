@@ -50,4 +50,12 @@ public class AdminService implements Service {
     public void updateUser(User user) {
         userDao.update(user);
     }
+
+    public List<Product> getProductWithSortAndLimit(String sortBy, String method, int from, int to) {
+        return productDao.findProductWithSortAndLimit(sortBy, method, from, to);
+    }
+
+    public int getAmountOfProducts() {
+        return productDao.findAmountOfProducts();
+    }
 }

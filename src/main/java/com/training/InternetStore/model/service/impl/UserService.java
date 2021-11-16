@@ -1,9 +1,5 @@
 package com.training.InternetStore.model.service.impl;
 
-import com.training.InternetStore.model.dao.DaoFactory;
-import com.training.InternetStore.model.dao.OrderDao;
-import com.training.InternetStore.model.dao.ProductDao;
-import com.training.InternetStore.model.dao.UserDao;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.enums.OrderStatus;

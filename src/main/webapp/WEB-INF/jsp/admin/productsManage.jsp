@@ -43,17 +43,8 @@
             </tr>
             </thead>
             <tbody>
-            <c:set var="firstIndex" value="${(param.getOrDefault('page', 1) - 1) * 5}"/>
 
-            <c:choose>
-                <c:when test="${requestScope.products.size() - firstIndex > 4}"><c:set var="lastIndex"
-                                                                                       value="${firstIndex + 4}"/></c:when>
-                <c:otherwise>
-                    <c:set var="lastIndex" value="${requestScope.products.size()}"/>
-                </c:otherwise>
-            </c:choose>
-
-            <c:forEach items="${requestScope.products}" var="product" begin="${firstIndex}" end="${lastIndex}">
+            <c:forEach items="${requestScope.products}" var="product">
                 <tr>
                     <td>
                             ${product.name}
@@ -149,21 +140,6 @@
             </c:forEach>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <c:set var="i" value="0"/>
-                <c:forEach items="${requestScope.products}" var="product" begin="1">
-                    <c:if test="${requestScope.products.indexOf(product) % 5 == 0}">
-                        <li class="page-item "><a class="page-link" aria-disabled="true"
-                                                  href="?page=${i = i + 1}">${i}</a>
-                        </li>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${requestScope.products.size() % 5 != 0}">
-                <li class="page-item"><a class="page-link"
-                                         href="?page=${i = i + 1}">${i}</a></c:if>
-            </ul>
-        </nav>
     </div>
     <div class="modal fade" tabindex="-1" id="myModal">
         <div class="modal-dialog">

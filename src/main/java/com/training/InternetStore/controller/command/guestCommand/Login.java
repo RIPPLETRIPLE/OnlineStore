@@ -34,7 +34,7 @@ public class Login implements Command {
 
             session.setAttribute("user", user);
 
-            if (session.getAttribute("cart") != null) {
+            if (session.getAttribute("cart") != null && user.getRole() != User.Role.Admin) {
                 userService.retainCartForLoggedUser((List<Order>) session.getAttribute("cart"), user);
                 session.removeAttribute("cart");
             }

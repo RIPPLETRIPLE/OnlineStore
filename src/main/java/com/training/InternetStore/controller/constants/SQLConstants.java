@@ -1,5 +1,7 @@
 package com.training.InternetStore.controller.constants;
 
+import java.util.HashMap;
+
 public class SQLConstants {
     public static final String CREATE_NEW_USER = "INSERT INTO users (login, password, role) VALUES(?, ?, ?)";
     public static final String FIND_ALL_USERS = "SELECT * FROM users";
@@ -24,4 +26,19 @@ public class SQLConstants {
     public static final String FIND_ALL_ORDERS_FOR_USER = "SELECT * FROM orders WHERE user_ID = (?);";
     public static final String UPDATE_PRODUCT = "UPDATE products SET name = (?), image = (?), price = (?), sex = (?), category_ID = (?), size_ID = (?), color_ID = (?) WHERE ID = (?);";
     public static final String UPDATE_USER = "UPDATE users SET login = (?), password = (?), role = (?), status = (?) WHERE id = (?);";
+    public static final String LIMIT = "LIMIT ?, ?;";
+    public static final String FIND_AMOUNT_OF_PRODUCTS = "SELECT COUNT(*) FROM products;";
+
+    public static final HashMap<String, String> sortBy = new HashMap<>();
+    public static final HashMap<String, String> order = new HashMap<>();
+
+
+    static {
+        sortBy.put("date", "ORDER BY ID");
+        sortBy.put("price", "ORDER BY price");
+        sortBy.put("name", "ORDER BY name");
+
+        order.put("asc", "ASC");
+        order.put("desc", "DESC");
+    }
 }
