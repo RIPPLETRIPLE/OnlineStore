@@ -24,7 +24,7 @@ public class Login implements Command {
             return JSPPageConstants.LOGIN_PAGE;
         }
 
-        User user = User.createUser(login, password, User.UserStatus.Unblocked);
+        User user = User.createUser(login, password, User.Role.User, User.UserStatus.Unblocked);
         if (userService.DBContainsUser(user)) {
             if (CommandUtility.checkUserIsLogged(request.getSession(), user)) {
                 session.setAttribute("error", true);

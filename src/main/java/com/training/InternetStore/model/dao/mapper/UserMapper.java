@@ -8,6 +8,6 @@ import java.sql.SQLException;
 public class UserMapper implements Mapper{
     @Override
     public User extractFromResultSet(ResultSet rs) throws SQLException {
-        return User.createUser(rs.getLong("ID"), rs.getString("login"), rs.getString("password"), User.UserStatus.valueOf(rs.getString("status")));
+        return User.createUser(rs.getLong("ID"), rs.getString("login"), rs.getString("password"), User.Role.valueOf(rs.getString("role")) ,User.UserStatus.valueOf(rs.getString("status")));
     }
 }

@@ -38,6 +38,7 @@ public class UserService implements Service {
             if (user.getPassword().equals(userWithSuchLogin.getPassword())) {
                 user.setStatus(userWithSuchLogin.getStatus());
                 user.setId(userWithSuchLogin.getId());
+                user.setRole(userWithSuchLogin.getRole());
                 return true;
             }
         } catch (FieldDontPresent e) {

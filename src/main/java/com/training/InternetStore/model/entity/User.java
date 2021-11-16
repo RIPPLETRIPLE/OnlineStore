@@ -14,12 +14,12 @@ public class User {
         this.status = status;
     }
 
-    public static User createUser(String login, String password, UserStatus status) {
-        return new User(login, password, login.equals("Admin") ? Role.Admin : Role.User, status);
+    public static User createUser(String login, String password, Role role, UserStatus status) {
+        return new User(login, password, role, status);
     }
 
-    public static User createUser(long id, String login, String password, UserStatus status) {
-        User user = new User(login, password, login.equals("Admin") ? Role.Admin : Role.User, status);
+    public static User createUser(long id, String login, String password, Role role, UserStatus status) {
+        User user = new User(login, password, role, status);
         user.setId(id);
         return user;
     }

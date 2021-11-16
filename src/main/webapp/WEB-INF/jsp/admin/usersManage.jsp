@@ -30,29 +30,33 @@
             <tbody>
 
             <c:forEach items="${requestScope.users}" var="users">
-                <tr>
-                    <td>
-                            ${users.login}
-                    </td>
-                    <td>
-                            ${users.role.toString()}
-                    </td>
-                    <td>
-                            ${users.status.toString()}
-                    </td>
-                    <td class="d-flex justify-content-center">
-                        <c:choose>
-                            <c:when test="${users.status.toString() == 'Unblocked'}">
-                                <a class="btn btn-danger" href="${url}/updateUserStatus?userId=${users.id}&status=Blocked">
-                                    <fmt:message key="block" bundle="${bundle}"/></a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn btn-primary" href="${url}/updateUserStatus?userId=${users.id}&status=Unblocked">
-                                    <fmt:message key="unblock" bundle="${bundle}"/></a>
-                            </c:otherwise>
-                        </c:choose>
+                <c:if test="${users.role.toString() != 'Admin'}">
+                    <tr>
+                        <td>
+                                ${users.login}
                         </td>
-                </tr>
+                        <td>
+                                ${users.role.toString()}
+                        </td>
+                        <td>
+                                ${users.status.toString()}
+                        </td>
+                        <td class="d-flex justify-content-center">
+                            <c:choose>
+                                <c:when test="${users.status.toString() == 'Unblocked'}">
+                                    <a class="btn btn-danger"
+                                       href="${url}/updateUserStatus?userId=${users.id}&status=Blocked">
+                                        <fmt:message key="block" bundle="${bundle}"/></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn btn-primary"
+                                       href="${url}/updateUserStatus?userId=${users.id}&status=Unblocked">
+                                        <fmt:message key="unblock" bundle="${bundle}"/></a>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:if>
             </c:forEach>
             </tbody>
         </table>

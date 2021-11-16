@@ -27,7 +27,7 @@ public class Registration implements Command {
             return registrationPage;
         }
 
-        if (userService.createNewUser(User.createUser(login, password, User.UserStatus.Unblocked))) {
+        if (userService.createNewUser(User.createUser(login, password, User.Role.User, User.UserStatus.Unblocked))) {
             return "redirect:/app/guest/login";
         }
 
