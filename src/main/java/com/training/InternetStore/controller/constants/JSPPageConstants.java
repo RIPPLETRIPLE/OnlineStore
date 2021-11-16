@@ -9,4 +9,6 @@ public class JSPPageConstants {
     public static final String AUTH_ERROR_PAGE = "/WEB-INF/jsp/authError.jsp";
     public static final String MANAGE_PRODUCTS_PAGE = "/WEB-INF/jsp/admin/productsManage.jsp";
     public static final String MANAGE_ORDERS_PAGE = "/WEB-INF/jsp/admin/ordersManage.jsp";
+    public static final String MANAGE_USERS_PAGE = "/WEB-INF/jsp/admin/usersManage.jsp";
+    public static final String BLOCK_ERROR = "/WEB-INF/jsp/blockError.jsp";
 }

@@ -5,18 +5,13 @@ import com.training.InternetStore.model.dao.OrderDao;
 import com.training.InternetStore.model.dao.ProductDao;
 import com.training.InternetStore.model.dao.UserDao;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
-import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
 import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.service.Service;
-
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class UserService implements Service {
     private static UserService userService;
@@ -33,14 +28,15 @@ public class UserService implements Service {
     private UserService() {
     }
 
-    public boolean createNewUser(String login, String password) {
-        return userDao.create(User.createUser(login, password));
+    public boolean createNewUser(User user) {
+        return userDao.create(user);
     }
 
     public boolean DBContainsUser(User user) {
         try {
             User userWithSuchLogin = userDao.findByLogin(user.getLogin()).orElseThrow(FieldDontPresent::new);
             if (user.getPassword().equals(userWithSuchLogin.getPassword())) {
+                user.setStatus(userWithSuchLogin.getStatus());
                 user.setId(userWithSuchLogin.getId());
                 return true;
             }

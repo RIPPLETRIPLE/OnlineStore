@@ -3,6 +3,7 @@ package com.training.InternetStore.controller.command.guestCommand;
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.constants.JSPPageConstants;
 import com.training.InternetStore.controller.util.ValidationUtil;
+import com.training.InternetStore.model.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class Registration implements Command {
             return registrationPage;
         }
 
-        if (userService.createNewUser(login, password)) {
+        if (userService.createNewUser(User.createUser(login, password, User.UserStatus.Unblocked))) {
             return "redirect:/app/guest/login";
         }
 

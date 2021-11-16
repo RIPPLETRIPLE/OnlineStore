@@ -103,7 +103,18 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public boolean update(User entity) {
+    public boolean update(User user) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_USER)) {
+            int i = 0;
+            pstmt.setString(++i, user.getLogin());
+            pstmt.setString(++i, user.getPassword());
+            pstmt.setString(++i, user.getRole().toString());
+            pstmt.setString(++i, user.getStatus().toString());
+            pstmt.setLong(++i, user.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 

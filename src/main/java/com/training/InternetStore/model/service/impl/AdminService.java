@@ -42,4 +42,12 @@ public class AdminService implements Service {
     public void updateProduct(Product product) {
         productDao.update(product);
     }
+
+    public Optional<User> getUserByID(int userId) {
+        return userDao.findById(userId);
+    }
+
+    public void updateUser(User user) {
+        userDao.update(user);
+    }
 }

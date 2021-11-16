@@ -24,6 +24,9 @@
                     <li class="nav-item"><a class="nav-link" href="${url}/ordersManagePage"><fmt:message key="orders"
                                                                                                            bundle="${bundle}"/></a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="${url}/usersManagePage"><fmt:message key="users"
+                                                                                                         bundle="${bundle}"/></a>
+                    </li>
                 </c:if>
                 <c:if test="${role == 'user'}">
                     <li class="nav-item"><a class="nav-link" href="${url}/ordersPage"><fmt:message key="orders"
