@@ -42,6 +42,9 @@ public class MainPage implements Command {
                 String role = user == null ? "guest" : user.getRole().toString().toLowerCase(Locale.ROOT);
                 return "redirect:/app/" + role + "/mainPage";
             }
+            request.setAttribute("colors", userService.getAllColors());
+            request.setAttribute("categories", userService.getAllCategories());
+            request.setAttribute("sizes", userService.getAllSizes());
             request.setAttribute("products", products);
             return JSPPageConstants.MAIN_PAGE;
         } else {

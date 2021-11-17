@@ -16,7 +16,6 @@ public class UpdateUserStatus implements Command {
             User user = adminService.getUserByID(userId).orElseThrow(FieldDontPresent::new);
 
             user.setStatus(User.UserStatus.valueOf(request.getParameter("status")));
-
             adminService.updateUser(user);
         } catch (Exception ex) {
             return "redirect:/app/admin/usersManagePage";

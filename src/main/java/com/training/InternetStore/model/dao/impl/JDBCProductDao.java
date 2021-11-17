@@ -139,7 +139,6 @@ public class JDBCProductDao implements ProductDao {
             int i = 0;
             pstmt.setInt(++i, --from);
             pstmt.setInt(++i, to);
-            System.out.println(pstmt.toString());
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 products.add(productMapper.extractFromResultSet(rs));

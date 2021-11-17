@@ -18,13 +18,54 @@
 </header>
 <main>
     <div class="container">
-        <div class="d-flex justify-content-between card-header my-3">
+        <div class="d-flex justify-content-start card-header my-3">
             <div><fmt:message key="all_products" bundle="${bundle}"/></div>
-            <input type="search" id="search" onkeyup="search()" class="form-control rounded search"
-                   placeholder="<fmt:message key="search_by_name" bundle="${bundle}"/>"
-                   aria-label="Search"
-                   aria-describedby="search-addon"/>
         </div>
+            <div class="d-flex justify-content-between" style="visibility: hidden">
+                <div class="category">
+                    <h4><fmt:message key="category" bundle="${bundle}"/></h4>
+                    <c:forEach items="${requestScope.categories}" var="category">
+                        <input type="checkbox" id="${category.name}"
+                               checked>
+                        <label for="${category.name}">${category.name}</label><br/>
+                    </c:forEach>
+                </div class="color">
+                <div>
+                    <h4><fmt:message key="color" bundle="${bundle}"/></h4>
+                    <c:forEach items="${requestScope.colors}" var="color">
+                        <input type="checkbox" id="${color.color}"
+                               checked>
+                        <label for="${color.color}">${color.color}</label><br/>
+                    </c:forEach>
+                </div>
+                <div class="size">
+                    <h4><fmt:message key="size" bundle="${bundle}"/></h4>
+                    <c:forEach items="${requestScope.sizes}" var="item">
+                        <input type="checkbox" id="${item.size}"
+                               checked>
+                        <label for="${item.size}">${item.size}</label><br/>
+                    </c:forEach>
+                </div>
+                <div class="sex">
+                    <h4><fmt:message key="sex" bundle="${bundle}"/></h4>
+                    <input type="checkbox" id="male"
+                           checked>
+
+                    <label for="male"><fmt:message key="male" bundle="${bundle}"/></label><br/>
+                    <input type="checkbox" id="female"
+                           checked>
+                    <label for="male"><fmt:message key="female" bundle="${bundle}"/></label><br/>
+                    <input type="checkbox" id="unisex"
+                           checked>
+                    <label for="male"><fmt:message key="unisex" bundle="${bundle}"/></label><br/>
+                </div>
+                <div>
+                    <button type="submit"
+                            class="btn btn-sm btn-primary"><fmt:message key="filter"
+                                                                        bundle="${bundle}"/></button></div>
+
+            </div>
+
         <div class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -32,10 +73,10 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item sortCards asc"
-                       href="${url}/mainPage?sortBy=name&order=desc&page=${param.getOrDefault("page", "1")}"><fmt:message
+                       href="${url}/mainPage?sortBy=name&order=asc&page=${param.getOrDefault("page", "1")}"><fmt:message
                         key="by_name_high" bundle="${bundle}"/></a></li>
                 <li><a class="dropdown-item sortCards asc"
-                       href="${url}/mainPage?sortBy=name&order=asc&page=${param.getOrDefault("page", "1")}"><fmt:message
+                       href="${url}/mainPage?sortBy=name&order=desc&page=${param.getOrDefault("page", "1")}"><fmt:message
                         key="by_name_low" bundle="${bundle}"/></a></li>
                 <li><a class="dropdown-item sortCards asc"
                        href="${url}/mainPage?sortBy=price&order=asc&page=${param.getOrDefault("page", "1")}"><fmt:message
@@ -92,8 +133,5 @@
         </nav>
     </div>
 </main>
-<script>
-    <%@include file="/WEB-INF/js/MainPage.js" %>
-</script>
 </body>
 </html>

@@ -30,7 +30,7 @@ public class AuthFilter implements Filter {
             roleAccess = m.group();
         }
 
-        if (!roleAccess.equals(userRole)) {
+        if (!roleAccess.equals(userRole) && !httpRequest.getRequestURI().equals("")) {
             httpRequest.getRequestDispatcher(JSPPageConstants.AUTH_ERROR_PAGE).forward(httpRequest, httpResponse);
         }
 

@@ -4,6 +4,9 @@
 .sortCards {
     cursor: pointer;
 }
+.filterUrl {
+    cursor: pointer;
+}
 .search {
     max-width: 180px;
 }

@@ -33,15 +33,6 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>BlockFilter</filter-name>
-        <filter-class>com.training.InternetStore.controller.filter.BlockFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>BlockFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>com.training.InternetStore.controller.filter.AuthFilter</filter-class>
     </filter>
@@ -50,7 +41,35 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>UpdateUserFilter</filter-name>
+        <filter-class>com.training.InternetStore.controller.filter.UpdateUserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UpdateUserFilter</filter-name>
+        <url-pattern>/app/user/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>BlockFilter</filter-name>
+        <filter-class>com.training.InternetStore.controller.filter.BlockFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BlockFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <welcome-file-list>
         <welcome-file>app/user/mainPage</welcome-file>
     </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/pageNotFound.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
 </web-app>
