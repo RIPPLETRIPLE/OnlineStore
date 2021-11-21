@@ -7,10 +7,7 @@ import com.training.InternetStore.model.dao.mapper.ProductMapper;
 import com.training.InternetStore.model.entity.Product;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class JDBCProductDao implements ProductDao {
     private final Connection connection;
@@ -130,12 +127,26 @@ public class JDBCProductDao implements ProductDao {
     }
 
     @Override
-    public List<Product> findProductWithSortAndLimit(String sortBy, String order, int from, int to) {
+    public List<Product> findProductWithSortLimitAndFilter(String sortBy, String order, String[] filterParams, int from, int to) {
         List<Product> products = new ArrayList<>();
         ResultSet rs = null;
-        sortBy = " " + SQLConstants.sortBy.getOrDefault(sortBy, "ORDER BY id");
-        order = " " + SQLConstants.order.getOrDefault(order, "ASC") + " ";
-        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.FIND_ALL_PRODUCTS.replaceAll(";", "") + sortBy + order + SQLConstants.LIMIT)) {
+        StringBuilder fullStatement = new StringBuilder();
+        fullStatement.append(SQLConstants.FIND_ALL_PRODUCTS.replaceAll(";", ""));
+
+        addFilterToQuery(filterParams, fullStatement);
+
+        fullStatement
+                .append(" ").append(SQLConstants.sortBy.getOrDefault(sortBy, "ORDER BY id"))
+                .append(" ").append(SQLConstants.order.getOrDefault(order, "ASC"))
+                .append(" ").append(SQLConstants.LIMIT).append(";");
+
+        if (    filterParams.length > 0 && (!fullStatement.toString().contains("category_ID")
+                || !fullStatement.toString().contains("color_ID")
+                || !fullStatement.toString().contains("size_ID")
+                || !fullStatement.toString().contains("sex"))) {
+            return products;
+        }
+        try (PreparedStatement pstmt = connection.prepareStatement(fullStatement.toString().replaceAll(" OR \\)", ")").replaceAll(" AND  ", " "))) {
             int i = 0;
             pstmt.setInt(++i, --from);
             pstmt.setInt(++i, to);
@@ -159,10 +170,14 @@ public class JDBCProductDao implements ProductDao {
     }
 
     @Override
-    public int findAmountOfProducts() {
+    public int findAmountOfProductsWithFilter(String[] filterParams) {
+        StringBuilder statementWithFilter = new StringBuilder(SQLConstants.FIND_AMOUNT_OF_PRODUCTS);
+        addFilterToQuery(filterParams, statementWithFilter);
+        statementWithFilter.append(";");
         ResultSet rs = null;
+
         try (Statement statement = connection.createStatement()) {
-            rs = statement.executeQuery(SQLConstants.FIND_AMOUNT_OF_PRODUCTS);
+            rs = statement.executeQuery(statementWithFilter.toString().replaceAll(" OR \\)", ")").replaceAll(" AND ;", " "));
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -179,5 +194,35 @@ public class JDBCProductDao implements ProductDao {
             }
         }
         return 0;
+    }
+
+    private void addFilterToQuery(String[] filterParams, StringBuilder statementWithFilter) {
+        if (filterParams.length > 0) {
+            statementWithFilter.append(" WHERE ");
+            List<String> strings = Arrays.asList(filterParams);
+
+            HashMap<String, Set<String>> paramNameToValues = new HashMap<>();
+
+            for (String s : filterParams) {
+                String[] paramToValues = s.split("=");
+                if (paramNameToValues.containsKey(paramToValues[0])) {
+                    paramNameToValues.get(paramToValues[0]).add(paramToValues[1]);
+                } else {
+                    HashSet<String> set = new HashSet<>();
+                    set.add(paramToValues[1]);
+                    paramNameToValues.put(paramToValues[0], set);
+                }
+            }
+
+            for (Map.Entry<String, Set<String>> entry : paramNameToValues.entrySet()) {
+                statementWithFilter.append("(");
+                for (String s : entry.getValue()) {
+                    statementWithFilter.append(entry.getKey()).append("=").append(s).append(" OR ");
+                }
+                statementWithFilter.append(")");
+                statementWithFilter.append(" AND ");
+            }
+        }
+
     }
 }

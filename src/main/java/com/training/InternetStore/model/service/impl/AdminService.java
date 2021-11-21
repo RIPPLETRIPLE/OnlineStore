@@ -51,11 +51,11 @@ public class AdminService implements Service {
         userDao.update(user);
     }
 
-    public List<Product> getProductWithSortAndLimit(String sortBy, String method, int from, int to) {
-        return productDao.findProductWithSortAndLimit(sortBy, method, from, to);
+    public List<Product> getProductWithSortAndLimit(String sortBy, String method, String[] filterParams, int from, int to) {
+        return productDao.findProductWithSortLimitAndFilter(sortBy, method, filterParams, from, to);
     }
 
-    public int getAmountOfProducts() {
-        return productDao.findAmountOfProducts();
+    public int getAmountOfProducts(String[] filterParams) {
+        return productDao.findAmountOfProductsWithFilter(filterParams);
     }
 }

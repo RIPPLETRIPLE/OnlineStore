@@ -7,6 +7,7 @@ import com.training.InternetStore.model.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +16,31 @@ import java.util.Locale;
 public class MainPage implements Command {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
-        User user = request.getSession().getAttribute("user") == null ? null : (User) request.getSession().getAttribute("user");
+        HttpSession session = request.getSession();
+        User user = session.getAttribute("user") == null ? null : (User) request.getSession().getAttribute("user");
+
+        if (session.getAttribute("sortBy") == null || request.getParameter("sortBy") != null) {
+            session.setAttribute("sortBy", request.getParameter("sortBy") == null ? "date" : request.getParameter("sortBy"));
+        }
+        System.out.println(session.getAttribute("sortBy"));
+        if (session.getAttribute("order") == null || request.getParameter("order") != null) {
+            session.setAttribute("order", request.getParameter("order") == null ? "asc" : request.getParameter("order"));
+        }
+        System.out.println(session.getAttribute("order"));
+        if (session.getAttribute("filterParam") == null || request.getParameterValues("filterParam") != null) {
+            session.setAttribute("filterParam", request.getParameterValues("filterParam"));
+        }
+
         if (user == null || user.getRole() == User.Role.User) {
             List<Product> products;
             try {
-                int amountOfProducts = adminService.getAmountOfProducts();
-                String sortBy = request.getParameter("sortBy");
-                String order = request.getParameter("order");
+                String[] filterParams = session.getAttribute("filterParam") == null ? new String[0]
+                                                   : (String[]) session.getAttribute("filterParam");
+
+                int amountOfProducts = adminService.getAmountOfProducts(filterParams);
+
+                String sortBy = (String) session.getAttribute("sortBy");
+                String order = (String) session.getAttribute("order");
 
                 int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
                 int from = (page - 1) * 8 + 1;
@@ -36,9 +55,9 @@ public class MainPage implements Command {
                 }
 
                 request.setAttribute("pages", pages);
-                products = adminService.getProductWithSortAndLimit(sortBy, order, from, to);
+                products = adminService.getProductWithSortAndLimit(sortBy, order, filterParams, from, to);
             } catch (Exception ex) {
-                //logger
+                ex.printStackTrace();
                 String role = user == null ? "guest" : user.getRole().toString().toLowerCase(Locale.ROOT);
                 return "redirect:/app/" + role + "/mainPage";
             }

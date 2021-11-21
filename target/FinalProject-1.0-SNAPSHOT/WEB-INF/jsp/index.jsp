@@ -21,11 +21,11 @@
         <div class="d-flex justify-content-start card-header my-3">
             <div><fmt:message key="all_products" bundle="${bundle}"/></div>
         </div>
-            <div class="d-flex justify-content-between" style="visibility: hidden">
+                <form  class="d-flex justify-content-between" action="${url}/mainPage&page=${param.getOrDefault("page", "1")}" method="get">
                 <div class="category">
                     <h4><fmt:message key="category" bundle="${bundle}"/></h4>
                     <c:forEach items="${requestScope.categories}" var="category">
-                        <input type="checkbox" id="${category.name}"
+                        <input type="checkbox" id="${category.name}" name="filterParam" value="category_ID=${category.id}"
                                checked>
                         <label for="${category.name}">${category.name}</label><br/>
                     </c:forEach>
@@ -33,7 +33,7 @@
                 <div>
                     <h4><fmt:message key="color" bundle="${bundle}"/></h4>
                     <c:forEach items="${requestScope.colors}" var="color">
-                        <input type="checkbox" id="${color.color}"
+                        <input type="checkbox" id="${color.color}" name="filterParam" value="color_ID=${color.id}"
                                checked>
                         <label for="${color.color}">${color.color}</label><br/>
                     </c:forEach>
@@ -41,21 +41,21 @@
                 <div class="size">
                     <h4><fmt:message key="size" bundle="${bundle}"/></h4>
                     <c:forEach items="${requestScope.sizes}" var="item">
-                        <input type="checkbox" id="${item.size}"
+                        <input type="checkbox" id="${item.size}" name="filterParam" value="size_ID=${item.id}"
                                checked>
                         <label for="${item.size}">${item.size}</label><br/>
                     </c:forEach>
                 </div>
                 <div class="sex">
                     <h4><fmt:message key="sex" bundle="${bundle}"/></h4>
-                    <input type="checkbox" id="male"
+                    <input type="checkbox" id="male" name="filterParam" value="sex='male'"
                            checked>
 
                     <label for="male"><fmt:message key="male" bundle="${bundle}"/></label><br/>
-                    <input type="checkbox" id="female"
+                    <input type="checkbox" id="female" name="filterParam" value="sex='female'"
                            checked>
                     <label for="male"><fmt:message key="female" bundle="${bundle}"/></label><br/>
-                    <input type="checkbox" id="unisex"
+                    <input type="checkbox" id="unisex" name="filterParam" value="sex='unisex'"
                            checked>
                     <label for="male"><fmt:message key="unisex" bundle="${bundle}"/></label><br/>
                 </div>
@@ -63,8 +63,8 @@
                     <button type="submit"
                             class="btn btn-sm btn-primary"><fmt:message key="filter"
                                                                         bundle="${bundle}"/></button></div>
+                </form>
 
-            </div>
 
         <div class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -126,7 +126,7 @@
                 <c:forEach items="${requestScope.pages}" var="page">
                     <li class="page-item">
                         <a class="page-link"
-                           href="${url}/mainPage?sortBy=${param.getOrDefault("sortBy", "date")}&order=${param.getOrDefault("order", "asc")}&page=${page}">${page}</a>
+                           href="${url}/mainPage?page=${page}">${page}</a>
                     </li>
                 </c:forEach>
             </ul>

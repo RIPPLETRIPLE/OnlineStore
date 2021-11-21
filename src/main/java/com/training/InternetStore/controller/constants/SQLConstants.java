@@ -26,8 +26,8 @@ public class SQLConstants {
     public static final String FIND_ALL_ORDERS_FOR_USER = "SELECT * FROM orders WHERE user_ID = (?);";
     public static final String UPDATE_PRODUCT = "UPDATE products SET name = (?), image = (?), price = (?), sex = (?), category_ID = (?), size_ID = (?), color_ID = (?) WHERE ID = (?);";
     public static final String UPDATE_USER = "UPDATE users SET login = (?), password = (?), role = (?), status = (?) WHERE id = (?);";
-    public static final String LIMIT = "LIMIT ?, ?;";
-    public static final String FIND_AMOUNT_OF_PRODUCTS = "SELECT COUNT(*) FROM products;";
+    public static final String LIMIT = "LIMIT ?, ?";
+    public static final String FIND_AMOUNT_OF_PRODUCTS = "SELECT COUNT(*) FROM products";
 
     public static final HashMap<String, String> sortBy = new HashMap<>();
     public static final HashMap<String, String> order = new HashMap<>();
