@@ -8,6 +8,8 @@ import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCOrderDao implements OrderDao {
+    private final Logger logger = LogManager.getLogger(JDBCOrderDao.class);
     private final Connection connection;
     private final OrderMapper orderMapper = new OrderMapper();
 
@@ -46,6 +49,7 @@ public class JDBCOrderDao implements OrderDao {
                 }
             }
         } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
             return false;
         }
         return true;
@@ -62,7 +66,7 @@ public class JDBCOrderDao implements OrderDao {
                 return Optional.of(orderMapper.extractFromResultSet(rs));
             }
         } catch (SQLException | FieldDontPresent throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -79,7 +83,7 @@ public class JDBCOrderDao implements OrderDao {
             pstmt.setLong(++i, order.getId());
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
     }
 
@@ -94,14 +98,18 @@ public class JDBCOrderDao implements OrderDao {
             pstmt.setLong(++i, order.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return false;
     }
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -116,10 +124,8 @@ public class JDBCOrderDao implements OrderDao {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (FieldDontPresent fieldDontPresent) {
-            return orders;
+        } catch (SQLException | FieldDontPresent throwables) {
+            logger.error(throwables.getMessage(), throwables);
         }
         return orders;
     }
@@ -136,10 +142,8 @@ public class JDBCOrderDao implements OrderDao {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (FieldDontPresent fieldDontPresent) {
-            return Optional.empty();
+        } catch (SQLException | FieldDontPresent throwables) {
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -155,10 +159,8 @@ public class JDBCOrderDao implements OrderDao {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (FieldDontPresent fieldDontPresent) {
-            return orders;
+        } catch (SQLException | FieldDontPresent throwables) {
+            logger.error(throwables.getMessage(), throwables);
         }
         return orders;
     }

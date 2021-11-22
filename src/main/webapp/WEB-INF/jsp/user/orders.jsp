@@ -48,9 +48,13 @@
                     </td>
                     <td>
                         <c:if test="${order.status == 'Registered'}">
-                            <a href="${url}/cancelRegisteredOrder?action=remove&orderId=${order.id}"
-                               class="btn btn-sm btn-danger"><fmt:message key="cancel"
-                                                                          bundle="${bundle}"/></a>
+                            <form method="post"
+                                  action="${url}/cancelRegisteredOrder?action=remove&orderId=${order.id}">
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"><fmt:message key="cancel"
+                                                                          bundle="${bundle}"/>
+                                </button>
+                            </form>
                         </c:if>
                     </td>
                 </tr>

@@ -1,12 +1,14 @@
 package com.training.InternetStore.controller.command.userCommand.cartCommands;
 
 import com.training.InternetStore.controller.command.Command;
-import com.training.InternetStore.controller.command.CommandUtility;
+import com.training.InternetStore.controller.util.CommandUtility;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddToCart implements Command {
+    private final Logger logger = LogManager.getLogger(AddToCart.class);
     @Override
     public String execute(HttpServletRequest request) {
         int productId;
@@ -26,6 +29,7 @@ public class AddToCart implements Command {
         try {
             productId = Integer.parseInt(request.getParameter("productId"));
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage(), e);
             return mainPage;
         }
 
@@ -33,6 +37,7 @@ public class AddToCart implements Command {
         try {
             product = userService.getProductById(productId);
         } catch (FieldDontPresent fieldDontPresent) {
+            logger.error(fieldDontPresent.getMessage(), fieldDontPresent);
             return mainPage;
         }
 
@@ -45,6 +50,7 @@ public class AddToCart implements Command {
                 try {
                     order = orders.stream().filter((e) -> e.getProduct().getId() == productId).findFirst().orElseThrow(FieldDontPresent::new);
                 } catch (FieldDontPresent e) {
+                    logger.error(e.getMessage(), e);
                     return mainPage;
                 }
 

@@ -44,23 +44,31 @@
                         <fmt:message key="currency" bundle="${bundle}"/>
                     </td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/app/${role}/order" method="post"
-                              class="form-inline">
-                            <input type="hidden" name="id" value="${order.product.id}" class="form-input">
-                            <div class="form-group d-flex justify-content-between">
-                                <a class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field=""
-                                   href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=increment&productId=${order.product.id}">+</a>
-                                <input type="text" name="quantity" class="form-control" value="${order.quantity}"
-                                       readonly>
-                                <a class="quantity-left-minus btn btn-danger btn-numbe" data-type="minus" data-field=""
-                                   href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=decrement&productId=${order.product.id}">-</a>
-                            </div>
-                        </form>
+                        <input type="hidden" name="id" value="${order.product.id}" class="form-input">
+                        <div class="form-group d-flex justify-content-between">
+                            <form method="post"
+                                  action="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=increment&productId=${order.product.id}">
+                                <button type="submit"
+                                        class="quantity-left-minus btn btn-success btn-number">+
+                                </button>
+                            </form>
+                            <input type="text" name="quantity" class="form-control" value="${order.quantity}"
+                                   readonly>
+                            <form method="post"
+                                  action="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=decrement&productId=${order.product.id}">
+                                <button type="submit"
+                                        class="quantity-left-minus btn btn-danger btn-number">-
+                                </button>
+                            </form>
+                        </div>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=remove&productId=${order.product.id}"
-                           class="btn btn-sm btn-danger"><fmt:message key="delete"
-                                                                      bundle="${bundle}"/></a>
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/app/${role}/changeProductQuantity?action=remove&productId=${order.product.id}">
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"><fmt:message key="delete"
+                                                                               bundle="${bundle}"/></button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>

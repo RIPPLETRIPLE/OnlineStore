@@ -1,15 +1,20 @@
 package com.training.InternetStore.model.service.impl;
 
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
+import com.training.InternetStore.model.dao.impl.JDBCCategoryDao;
 import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
 import com.training.InternetStore.model.service.Service;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.List;
 import java.util.Optional;
 
 public class UserService implements Service {
+    private final Logger logger = LogManager.getLogger(UserService.class);
     private static UserService userService;
 
     public static UserService getInstance() {
@@ -38,7 +43,7 @@ public class UserService implements Service {
                 return true;
             }
         } catch (FieldDontPresent e) {
-            return false;
+            logger.error(e.getMessage(), e);
         }
         return false;
     }

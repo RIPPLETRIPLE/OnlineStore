@@ -7,6 +7,8 @@ import com.training.InternetStore.model.dao.mapper.UserMapper;
 import com.training.InternetStore.model.entity.enums.OrderStatus;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCUserDao implements UserDao {
+    private final Logger logger = LogManager.getLogger(JDBCUserDao.class);
+
     private Connection connection;
     private UserMapper userMapper = new UserMapper();
 
@@ -41,7 +45,7 @@ public class JDBCUserDao implements UserDao {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return result;
     }
@@ -57,7 +61,7 @@ public class JDBCUserDao implements UserDao {
                 return Optional.of(userMapper.extractFromResultSet(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -74,7 +78,7 @@ public class JDBCUserDao implements UserDao {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -91,7 +95,7 @@ public class JDBCUserDao implements UserDao {
                 users.add(userMapper.extractFromResultSet(resultSet));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
 
         return users;
@@ -113,13 +117,17 @@ public class JDBCUserDao implements UserDao {
             pstmt.setLong(++i, user.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return false;
     }
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

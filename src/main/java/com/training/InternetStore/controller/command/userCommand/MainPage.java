@@ -2,8 +2,11 @@ package com.training.InternetStore.controller.command.userCommand;
 
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.constants.JSPPageConstants;
+import com.training.InternetStore.model.dao.impl.JDBCCategoryDao;
 import com.training.InternetStore.model.entity.Product;
 import com.training.InternetStore.model.entity.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainPage implements Command {
+    private final Logger logger = LogManager.getLogger(MainPage.class);
+
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -57,7 +62,7 @@ public class MainPage implements Command {
                 request.setAttribute("pages", pages);
                 products = adminService.getProductWithSortAndLimit(sortBy, order, filterParams, from, to);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.warn(ex.getMessage(), ex);
                 String role = user == null ? "guest" : user.getRole().toString().toLowerCase(Locale.ROOT);
                 return "redirect:/app/" + role + "/mainPage";
             }

@@ -1,8 +1,7 @@
 package com.training.InternetStore.controller.command.guestCommand;
 
 import com.training.InternetStore.controller.command.Command;
-import com.training.InternetStore.controller.command.CommandUtility;
-import com.training.InternetStore.controller.constants.JSPPageConstants;
+import com.training.InternetStore.controller.util.CommandUtility;
 
 import javax.servlet.http.HttpServletRequest;
 

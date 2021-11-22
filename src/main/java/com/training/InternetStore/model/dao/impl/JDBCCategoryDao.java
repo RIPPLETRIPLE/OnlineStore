@@ -4,6 +4,8 @@ import com.training.InternetStore.controller.constants.SQLConstants;
 import com.training.InternetStore.model.dao.CategoryDao;
 import com.training.InternetStore.model.dao.mapper.CategoryMapper;
 import com.training.InternetStore.model.entity.Product;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCCategoryDao implements CategoryDao {
+    private final Logger logger = LogManager.getLogger(JDBCCategoryDao.class);
+
     private final Connection connection;
     private final CategoryMapper categoryMapper = new CategoryMapper();
 
@@ -34,7 +38,7 @@ public class JDBCCategoryDao implements CategoryDao {
                 return Optional.of(categoryMapper.extractFromResultSet(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -50,7 +54,7 @@ public class JDBCCategoryDao implements CategoryDao {
                 categories.add(categoryMapper.extractFromResultSet(resultSet));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return categories;
     }
@@ -67,6 +71,10 @@ public class JDBCCategoryDao implements CategoryDao {
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

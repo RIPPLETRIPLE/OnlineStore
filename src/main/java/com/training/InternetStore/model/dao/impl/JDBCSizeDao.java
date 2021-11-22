@@ -4,6 +4,8 @@ import com.training.InternetStore.controller.constants.SQLConstants;
 import com.training.InternetStore.model.dao.SizeDao;
 import com.training.InternetStore.model.dao.mapper.SizeMapper;
 import com.training.InternetStore.model.entity.Product;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCSizeDao implements SizeDao {
+    private final Logger logger = LogManager.getLogger(JDBCSizeDao.class);
+
     private final Connection connection;
     private final SizeMapper sizeMapper = new SizeMapper();
 
@@ -34,7 +38,7 @@ public class JDBCSizeDao implements SizeDao {
                 return Optional.of(sizeMapper.extractFromResultSet(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return Optional.empty();
     }
@@ -50,7 +54,7 @@ public class JDBCSizeDao implements SizeDao {
                 sizes.add(sizeMapper.extractFromResultSet(resultSet));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return sizes;
     }
@@ -67,6 +71,10 @@ public class JDBCSizeDao implements SizeDao {
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

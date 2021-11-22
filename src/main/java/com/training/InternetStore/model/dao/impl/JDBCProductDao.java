@@ -5,11 +5,15 @@ import com.training.InternetStore.model.dao.*;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.dao.mapper.ProductMapper;
 import com.training.InternetStore.model.entity.Product;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
 
 public class JDBCProductDao implements ProductDao {
+    private final Logger logger = LogManager.getLogger(JDBCProductDao.class);
+
     private final Connection connection;
     private final ProductMapper productMapper = new ProductMapper();
 
@@ -39,7 +43,7 @@ public class JDBCProductDao implements ProductDao {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return result;
     }
@@ -56,14 +60,14 @@ public class JDBCProductDao implements ProductDao {
                 return Optional.of(productMapper.extractFromResultSet(rs));
             }
         } catch (SQLException | FieldDontPresent exception) {
-            //logger
+            logger.error(exception.getMessage(), exception);
             return Optional.empty();
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    //logger
+                    logger.error(e.getMessage(), e);
                 }
             }
         }
@@ -86,7 +90,7 @@ public class JDBCProductDao implements ProductDao {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return products;
     }
@@ -98,7 +102,7 @@ public class JDBCProductDao implements ProductDao {
             pstmt.setLong(++i, product.getId());
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
     }
 
@@ -116,14 +120,18 @@ public class JDBCProductDao implements ProductDao {
             pstmt.setLong(++i, product.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getMessage(), throwables);
         }
         return false;
     }
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -155,14 +163,13 @@ public class JDBCProductDao implements ProductDao {
                 products.add(productMapper.extractFromResultSet(rs));
             }
         } catch (SQLException | FieldDontPresent throwables) {
-            throwables.printStackTrace();
-            return products;
+            logger.error(throwables.getMessage(), throwables);
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage(), e);
                 }
             }
         }
@@ -182,14 +189,13 @@ public class JDBCProductDao implements ProductDao {
                 return rs.getInt(1);
             }
         } catch (SQLException throwables) {
-            //logger
-            return 0;
+            logger.error(throwables.getMessage(), throwables);
         } finally {
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage(), e);
                 }
             }
         }
@@ -199,7 +205,6 @@ public class JDBCProductDao implements ProductDao {
     private void addFilterToQuery(String[] filterParams, StringBuilder statementWithFilter) {
         if (filterParams.length > 0) {
             statementWithFilter.append(" WHERE ");
-            List<String> strings = Arrays.asList(filterParams);
 
             HashMap<String, Set<String>> paramNameToValues = new HashMap<>();
 

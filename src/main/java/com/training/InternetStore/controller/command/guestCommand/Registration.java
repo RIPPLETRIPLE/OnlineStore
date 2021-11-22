@@ -3,7 +3,10 @@ package com.training.InternetStore.controller.command.guestCommand;
 import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.controller.constants.JSPPageConstants;
 import com.training.InternetStore.controller.util.ValidationUtil;
+import com.training.InternetStore.model.dao.impl.JDBCCategoryDao;
 import com.training.InternetStore.model.entity.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Registration implements Command {
+    private final Logger logger = LogManager.getLogger(Registration.class);
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
         String login = request.getParameter("login");
@@ -24,6 +28,7 @@ public class Registration implements Command {
 
         if (!ValidationUtil.isLoginValid(login) || !ValidationUtil.isPasswordValid(password)) {
             request.setAttribute("error", "invalid data");
+            logger.info("wrong data in registration or password, session id: " + request.getSession().getId());
             return registrationPage;
         }
 
@@ -31,6 +36,7 @@ public class Registration implements Command {
             return "redirect:/app/guest/login";
         }
 
+        logger.info("login already exist, session id: " + request.getSession().getId());
         session.setAttribute("loginAlreadyExist", "true");
         return registrationPage;
     }

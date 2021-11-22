@@ -1,12 +1,15 @@
 package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.model.dao.*;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JDBCDaoFactory extends DaoFactory {
+    private final Logger logger = LogManager.getLogger(JDBCDaoFactory.class);
     private DataSource dataSource;
     Connection connection = getConnection();
 
@@ -45,6 +48,7 @@ public class JDBCDaoFactory extends DaoFactory {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

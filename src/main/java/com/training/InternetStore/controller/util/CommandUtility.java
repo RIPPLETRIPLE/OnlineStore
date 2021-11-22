@@ -1,4 +1,4 @@
-package com.training.InternetStore.controller.command;
+package com.training.InternetStore.controller.util;
 
 
 import com.training.InternetStore.model.entity.Order;
@@ -9,6 +9,8 @@ import com.training.InternetStore.model.service.impl.UserService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandUtility {
+    private static final Logger logger = LogManager.getLogger(CommandUtility.class);
     public static boolean checkUserIsLogged(HttpSession session, User user) {
         String userLogin = user.getLogin();
         HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext().getAttribute("loggedUsers");
@@ -90,7 +93,7 @@ public class CommandUtility {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax(MAX_REQUEST_SIZE);
 
-        Product product = null;
+        Product product;
 
         try {
             List<FileItem> items = upload.parseRequest(request);
@@ -111,6 +114,7 @@ public class CommandUtility {
 
             loadFilesToDirectory(uploadFolder, items);
         } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
             return Optional.empty();
         }
         return Optional.of(product);

@@ -111,10 +111,14 @@
                                 <span class="price">${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * product.price : product.price}</span>
                                 <fmt:message key="currency" bundle="${bundle}"/></h6>
                             <div class="mt-3 d-flex justify-content-between">
-                                <a class="btn btn-dark"
-                                   href="${url}/addToCart?productId=${product.id}"><fmt:message
-                                        key="add_to_cart"
-                                        bundle="${bundle}"/></a>
+                                <form method="post"
+                                      action="${url}/addToCart?productId=${product.id}">
+                                    <button type="submit"
+                                            class="btn btn-dark"><fmt:message
+                                            key="add_to_cart"
+                                            bundle="${bundle}"/>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

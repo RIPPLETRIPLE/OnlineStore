@@ -12,5 +12,8 @@ import java.util.List;
 
 public class Demo {
     public static void main(String[] args) throws FieldDontPresent {
+        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
+
+        daoFactory.createCategoryDao().findById(-1);
     }
 }
