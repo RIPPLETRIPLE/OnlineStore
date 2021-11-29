@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Demo {
     public static void main(String[] args) throws FieldDontPresent {
-        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
+        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class, "db");
 
         daoFactory.createCategoryDao().findById(-1);
     }

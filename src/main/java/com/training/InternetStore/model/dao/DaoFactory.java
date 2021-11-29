@@ -6,9 +6,9 @@ public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
 
-    protected String resourcePropertiesName = "db";
-    public static DaoFactory getInstance(Class<? extends DaoFactory> type) {
-
+    protected static String resourcePropertiesName;
+    public static DaoFactory getInstance(Class<? extends DaoFactory> type , String properties) {
+        resourcePropertiesName = properties;
         if (daoFactory == null) {
             synchronized (DaoFactory.class) {
                 try {

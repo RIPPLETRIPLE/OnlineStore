@@ -4,7 +4,7 @@ import com.training.InternetStore.model.dao.*;
 import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
 
 public interface Service {
-    DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
+    DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class, "db");
 
     CategoryDao categoryDao = daoFactory.createCategoryDao();
     UserDao userDao = daoFactory.createUserDao();

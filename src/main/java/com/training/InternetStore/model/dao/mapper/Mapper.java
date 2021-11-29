@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface Mapper<T> {
-      DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class);
+      DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class, "db");
 
       CategoryDao categoryDao = daoFactory.createCategoryDao();
       SizeDao sizeDao = daoFactory.createSizeDao();

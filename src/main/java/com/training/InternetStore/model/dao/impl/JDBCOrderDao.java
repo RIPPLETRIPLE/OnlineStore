@@ -11,10 +11,7 @@ import com.training.InternetStore.model.entity.enums.OrderStatus;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +70,19 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public List<Order> findAll() {
-        return null;
+        List<Order> orders = new ArrayList<>();
+        try (
+                Statement stmt = connection.createStatement();
+                ResultSet resultSet = stmt.executeQuery(SQLConstants.FIND_ALL_ORDERS)
+        ) {
+            while (resultSet.next()) {
+                orders.add(orderMapper.extractFromResultSet(resultSet));
+            }
+        } catch (SQLException | FieldDontPresent throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
+
+        return orders;
     }
 
     @Override

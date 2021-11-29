@@ -3,10 +3,11 @@ package com.training.InternetStore.controller.constants;
 import java.util.HashMap;
 
 public class SQLConstants {
-    public static final String CREATE_NEW_USER = "INSERT INTO users (login, password, role) VALUES(?, ?, ?)";
+    public static final String CREATE_NEW_USER = "INSERT INTO users (login, password, role) VALUES(?, ?, ?);";
     public static final String FIND_ALL_USERS = "SELECT * FROM users";
-    public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = (?)";
-    public static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login = (?)";
+    public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = (?);";
+    public static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login = (?);";
+    public static final String DELETE_USER = "DELETE FROM users WHERE id = (?);";
     public static final String FIND_ALL_PRODUCTS = "SELECT * FROM products";
     public static final String FIND_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = (?)";
     public static final String FIND_ALL_CATEGORIES = "SELECT * FROM category";
@@ -28,9 +29,21 @@ public class SQLConstants {
     public static final String UPDATE_USER = "UPDATE users SET login = (?), password = (?), role = (?), status = (?) WHERE id = (?);";
     public static final String LIMIT = "LIMIT ?, ?";
     public static final String FIND_AMOUNT_OF_PRODUCTS = "SELECT COUNT(*) FROM products";
+    public static final String CREATE_CATEGORY = "INSERT INTO category (category) VALUES (?);";
+    public static final String DELETE_CATEGORY = "DELETE FROM category WHERE id = (?);";
+    public static final String UPDATE_CATEGORY = "UPDATE category SET category = (?) WHERE id = (?);";
+    public static final String CREATE_COLOR = "INSERT INTO color (color) VALUES (?);";
+    public static final String DELETE_COLOR = "DELETE FROM color WHERE id = (?);";
+    public static final String UPDATE_COLOR = "UPDATE color SET color = (?) WHERE id = (?);";
+    public static final String CREATE_SIZE = "INSERT INTO size (size) VALUES (?);";
+    public static final String DELETE_SIZE = "DELETE FROM size WHERE id = (?);";
+    public static final String UPDATE_SIZE = "UPDATE size SET size = (?) WHERE id = (?);";
+    public static final String FIND_ALL_ORDERS = "SELECT * FROM orders;";
+
 
     public static final HashMap<String, String> sortBy = new HashMap<>();
     public static final HashMap<String, String> order = new HashMap<>();
+
 
 
     static {

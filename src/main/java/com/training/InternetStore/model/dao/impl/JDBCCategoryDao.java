@@ -24,7 +24,23 @@ public class JDBCCategoryDao implements CategoryDao {
 
     @Override
     public boolean create(Product.Category entity) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_CATEGORY, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int i = 0;
+
+            pstmt.setString(++i, entity.getName());
+            if (pstmt.executeUpdate() > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        entity.setId(rs.getLong(1));
+                    }
+                    result = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
+        return result;
     }
 
     @Override
@@ -60,12 +76,26 @@ public class JDBCCategoryDao implements CategoryDao {
     }
 
     @Override
-    public void delete(Product.Category id) {
-
+    public void delete(Product.Category category) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_CATEGORY)) {
+            int i = 0;
+            pstmt.setLong(++i, category.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
     }
 
     @Override
     public boolean update(Product.Category entity) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_CATEGORY)) {
+            int i = 0;
+            pstmt.setString(++i, entity.getName());
+            pstmt.setLong(++i, entity.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
         return false;
     }
 

@@ -12,8 +12,7 @@ import java.util.List;
 public class ProductsManagePage implements Command {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
-        List<Product.Category> categories = userService.getAllCategories();
-        request.setAttribute("categories", categories);
+        request.setAttribute("categories", userService.getAllCategories());
         request.setAttribute("colors", userService.getAllColors());
         request.setAttribute("sizes", userService.getAllSizes());
         request.setAttribute("products", userService.getAllProducts());

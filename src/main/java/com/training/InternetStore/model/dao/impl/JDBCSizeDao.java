@@ -24,7 +24,23 @@ public class JDBCSizeDao implements SizeDao {
 
     @Override
     public boolean create(Product.Size entity) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_SIZE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int i = 0;
+
+            pstmt.setString(++i, entity.getSize());
+            if (pstmt.executeUpdate() > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        entity.setId(rs.getLong(1));
+                    }
+                    result = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
+        return result;
     }
 
     @Override
@@ -60,12 +76,26 @@ public class JDBCSizeDao implements SizeDao {
     }
 
     @Override
-    public void delete(Product.Size id) {
-
+    public void delete(Product.Size size) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_SIZE)) {
+            int i = 0;
+            pstmt.setLong(++i, size.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
     }
 
     @Override
-    public boolean update(Product.Size entity) {
+    public boolean update(Product.Size size) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_SIZE)) {
+            int i = 0;
+            pstmt.setString(++i, size.getSize());
+            pstmt.setLong(++i, size.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
         return false;
     }
 

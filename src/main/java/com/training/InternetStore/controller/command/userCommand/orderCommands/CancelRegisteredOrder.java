@@ -4,6 +4,7 @@ import com.training.InternetStore.controller.command.Command;
 import com.training.InternetStore.model.dao.exception.FieldDontPresent;
 import com.training.InternetStore.model.dao.impl.JDBCCategoryDao;
 import com.training.InternetStore.model.entity.Order;
+import com.training.InternetStore.model.entity.enums.OrderStatus;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -31,7 +32,9 @@ public class CancelRegisteredOrder implements Command {
         } catch (FieldDontPresent e) {
             return ordersPage;
         }
-        userService.deleteOrder(order);
+        if (order.getStatus() == OrderStatus.Registered) {
+            userService.deleteOrder(order);
+        }
 
         return ordersPage;
     }

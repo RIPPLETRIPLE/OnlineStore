@@ -23,7 +23,23 @@ public class JDBCColorDao implements ColorDao {
 
     @Override
     public boolean create(Product.Color entity) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.CREATE_COLOR, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int i = 0;
+
+            pstmt.setString(++i, entity.getColor());
+            if (pstmt.executeUpdate() > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        entity.setId(rs.getLong(1));
+                    }
+                    result = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
+        return result;
     }
 
     @Override
@@ -59,12 +75,26 @@ public class JDBCColorDao implements ColorDao {
     }
 
     @Override
-    public void delete(Product.Color id) {
-
+    public void delete(Product.Color color) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_COLOR)) {
+            int i = 0;
+            pstmt.setLong(++i, color.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
     }
 
     @Override
-    public boolean update(Product.Color entity) {
+    public boolean update(Product.Color color) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.UPDATE_COLOR)) {
+            int i = 0;
+            pstmt.setString(++i, color.getColor());
+            pstmt.setLong(++i, color.getId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
         return false;
     }
 

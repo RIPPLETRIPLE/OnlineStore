@@ -102,8 +102,14 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public void delete(User id) {
-
+    public void delete(User user) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SQLConstants.DELETE_USER)) {
+            int i = 0;
+            pstmt.setLong(++i, user.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            logger.error(throwables.getMessage(), throwables);
+        }
     }
 
     @Override
