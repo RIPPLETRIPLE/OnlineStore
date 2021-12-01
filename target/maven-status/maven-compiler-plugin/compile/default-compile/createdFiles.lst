@@ -1,12 +1,9 @@
 com\training\InternetStore\model\dao\impl\JDBCDaoFactory.class
 com\training\InternetStore\Demo.class
 com\training\InternetStore\model\dao\impl\ConnectionPoolHolder.class
-com\training\InternetStore\controller\command\userCommand\BuyFromCart.class
 com\training\InternetStore\model\dao\mapper\CategoryMapper.class
 com\training\InternetStore\controller\filter\EncodingFilter.class
-com\training\InternetStore\controller\command\userCommand\CartPage.class
 com\training\InternetStore\model\dao\exception\FieldDontPresent.class
-com\training\InternetStore\controller\command\userCommand\ChangeProductQuantity.class
 com\training\InternetStore\model\dao\impl\JDBCCategoryDao.class
 com\training\InternetStore\model\entity\User$Role.class
 com\training\InternetStore\controller\command\guestCommand\Login.class
@@ -20,7 +17,6 @@ com\training\InternetStore\model\dao\UserDao.class
 com\training\InternetStore\controller\Controller.class
 com\training\InternetStore\model\entity\Product$Color.class
 com\training\InternetStore\controller\command\guestCommand\Registration.class
-com\training\InternetStore\controller\command\userCommand\AddToCart.class
 com\training\InternetStore\controller\command\userCommand\MainPage.class
 com\training\InternetStore\model\dao\impl\JDBCColorDao.class
 com\training\InternetStore\controller\command\Command.class
@@ -31,7 +27,6 @@ com\training\InternetStore\model\entity\Product$Category.class
 com\training\InternetStore\model\dao\ProductDao.class
 com\training\InternetStore\model\service\Service.class
 com\training\InternetStore\model\dao\mapper\Mapper.class
-com\training\InternetStore\controller\command\CommandUtility.class
 com\training\InternetStore\model\dao\SizeDao.class
 com\training\InternetStore\model\service\impl\UserService.class
 com\training\InternetStore\controller\util\ValidationUtil.class

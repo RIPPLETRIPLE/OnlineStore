@@ -67,8 +67,14 @@
         <location>/WEB-INF/jsp/pageNotFound.jsp</location>
     </error-page>
 
-        <error-page>
-            <error-code>500</error-code>
-            <location>/WEB-INF/jsp/errorPage.jsp</location>
-        </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <jsp-config>
+        <taglib>
+            <taglib-uri>mytag</taglib-uri>
+            <taglib-location>/WEB-INF/customTags/priceTag.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

@@ -27,11 +27,11 @@ public class MainPage implements Command {
         if (session.getAttribute("sortBy") == null || request.getParameter("sortBy") != null) {
             session.setAttribute("sortBy", request.getParameter("sortBy") == null ? "date" : request.getParameter("sortBy"));
         }
-        System.out.println(session.getAttribute("sortBy"));
+
         if (session.getAttribute("order") == null || request.getParameter("order") != null) {
             session.setAttribute("order", request.getParameter("order") == null ? "asc" : request.getParameter("order"));
         }
-        System.out.println(session.getAttribute("order"));
+
         if (session.getAttribute("filterParam") == null || request.getParameterValues("filterParam") != null) {
             session.setAttribute("filterParam", request.getParameterValues("filterParam"));
         }
