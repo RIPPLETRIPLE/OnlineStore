@@ -6,7 +6,6 @@ import com.training.InternetStore.model.dao.impl.ConnectionPoolHolder;
 import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
 import com.training.InternetStore.model.entity.User;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
