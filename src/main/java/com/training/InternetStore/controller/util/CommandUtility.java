@@ -9,12 +9,14 @@ import com.training.InternetStore.model.service.impl.UserService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,7 +105,7 @@ public class CommandUtility {
             int sizeId = Integer.parseInt(items.get(2).getString());
             Product.Sex sex = Product.Sex.valueOf(items.get(3).getString());
             int price = Integer.parseInt(items.get(4).getString());
-            String name = items.get(5).getString();
+            String name = Streams.asString(items.get(5).getInputStream(), "UTF-8");
             String image = items.get(6).getName();
 
             Product.Category category = userService.getCategoryByID(categoryId);
