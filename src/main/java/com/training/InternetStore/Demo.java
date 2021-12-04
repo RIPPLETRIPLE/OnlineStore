@@ -6,14 +6,13 @@ import com.training.InternetStore.model.dao.impl.JDBCDaoFactory;
 import com.training.InternetStore.model.entity.Order;
 import com.training.InternetStore.model.entity.Product;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Demo {
     public static void main(String[] args) throws FieldDontPresent {
-        DaoFactory daoFactory = DaoFactory.getInstance(JDBCDaoFactory.class, "db");
 
-        daoFactory.createCategoryDao().findById(-1);
     }
 }

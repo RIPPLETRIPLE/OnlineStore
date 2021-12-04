@@ -41,7 +41,7 @@
                     </td>
                     <td class="price">
                             ${pageContext.request.getSession(false).getAttribute("lang") == 'ukr' ? 26 * order.product.price * order.quantity : order.product.price * order.quantity}
-                        <fmt:message key="currency" bundle="${bundle}"/>
+                        <ct:priceTag/>
                     </td>
                     <td>
                         <input type="hidden" name="id" value="${order.product.id}" class="form-input">

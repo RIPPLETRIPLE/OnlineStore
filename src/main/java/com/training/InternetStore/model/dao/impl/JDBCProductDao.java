@@ -120,9 +120,10 @@ public class JDBCProductDao implements ProductDao {
             pstmt.setLong(++i, product.getId());
             return pstmt.executeUpdate() > 0;
         } catch (SQLException throwables) {
+            System.out.println(throwables);
             logger.error(throwables.getMessage(), throwables);
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -200,6 +201,19 @@ public class JDBCProductDao implements ProductDao {
             }
         }
         return 0;
+    }
+
+    @Override
+    public boolean updateAllProducts(Product... products) throws SQLException {
+        connection.setAutoCommit(false);
+        for (Product product : products) {;
+            if(!update(product)) {
+                connection.rollback();
+                return false;
+            }
+        }
+        connection.commit();
+        return true;
     }
 
     private void addFilterToQuery(String[] filterParams, StringBuilder statementWithFilter) {

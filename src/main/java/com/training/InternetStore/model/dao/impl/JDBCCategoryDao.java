@@ -2,6 +2,9 @@ package com.training.InternetStore.model.dao.impl;
 
 import com.training.InternetStore.controller.constants.SQLConstants;
 import com.training.InternetStore.model.dao.CategoryDao;
+import com.training.InternetStore.model.dao.DaoFactory;
+import com.training.InternetStore.model.dao.ProductDao;
+import com.training.InternetStore.model.dao.UserDao;
 import com.training.InternetStore.model.dao.mapper.CategoryMapper;
 import com.training.InternetStore.model.entity.Product;
 import org.apache.log4j.LogManager;
@@ -107,4 +110,5 @@ public class JDBCCategoryDao implements CategoryDao {
             logger.error(e.getMessage(), e);
         }
     }
+
 }
